@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -7,6 +8,7 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,14 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     MenuComponent,
     FooterComponent,
     ContentComponent,
+    CartComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MDBBootstrapModule.forRoot()],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MDBBootstrapModule.forRoot()
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
