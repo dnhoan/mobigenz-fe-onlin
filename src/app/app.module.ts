@@ -9,6 +9,8 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { CartComponent } from './cart/cart.component';
+import { ProductsComponent } from './content/products/products.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { CartComponent } from './cart/cart.component';
     FooterComponent,
     ContentComponent,
     CartComponent,
+    ProductsComponent,
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule,
