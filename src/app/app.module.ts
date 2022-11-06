@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,6 +11,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { CartComponent } from './cart/cart.component';
 import { ProductsComponent } from './content/products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonPrimengModuleModule } from './common-primeng-module.module';
 
 @NgModule({
   declarations: [
@@ -26,9 +28,11 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MDBBootstrapModule.forRoot()
+    BrowserAnimationsModule,
+    CommonPrimengModuleModule,
+    MDBBootstrapModule.forRoot(),
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: 'vi-VI' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
