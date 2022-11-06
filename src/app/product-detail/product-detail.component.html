@@ -1,70 +1,40 @@
 <!--Section: Content-->
-<section class="text-center">
+<section class="container" *ngIf="product">
   <!-- Section heading -->
   <div class="row mt-5">
-    <div class="col-lg-6">
-      <!--Carousel Wrapper-->
-      <div
-        id="carousel-thumb1"
-        class="carousel slide carousel-fade carousel-thumbnails mb-5 pb-4"
-        data-ride="carousel"
+    <div class="col-lg-7 showImages">
+      <p-galleria
+        [value]="images"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{
+          height: '600px'
+        }"
+        [numVisible]="5"
+        [circular]="true"
+        [showItemNavigators]="true"
       >
-        <!--Slides-->
-        <div class="carousel-inner text-center text-md-left" role="listbox">
-          <div class="carousel-item active">
-            <img
-              [src]="product.images[0]"
-              alt="First slide"
-              class="img-fluid"
-            />
+        <ng-template pTemplate="item" let-item>
+          <img
+            [src]="item"
+            style="
+              width: 100%;
+              display: block;
+              height: 100%;
+              object-fit: contain;
+            "
+          />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <div class="grid grid-nogutter justify-content-center">
+            <img [src]="item" width="60" style="display: block" />
           </div>
-        </div>
-        <!--/.Slides-->
-
-        <!--Thumbnails-->
-        <a
-          class="carousel-control-prev"
-          href="#carousel-thumb1"
-          role="button"
-          data-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a
-          class="carousel-control-next"
-          href="#carousel-thumb1"
-          role="button"
-          data-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-        <!--/.Thumbnails-->
-      </div>
-      <!--/.Carousel Wrapper-->
-
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <div id="mdb-lightbox-ui"></div>
-          <div class="mdb-lightbox no-margin">
-            <ng-container *ngFor="let img of product.images">
-              <figure class="col-md-4">
-                <a
-                  href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/1.jpg"
-                  data-size="1600x1067"
-                >
-                  <img [src]="img" class="img-fluid" />
-                </a></figure
-            ></ng-container>
-          </div>
-        </div>
-      </div>
+        </ng-template>
+      </p-galleria>
     </div>
 
-    <div class="col-lg-5 text-center text-md-left">
+    <div class="col-lg-5 text-md-left">
       <h2
-        class="h2-responsive text-center text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4"
+        class="h2-responsive text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4"
       >
         {{ product.productName }}
       </h2>
@@ -73,85 +43,116 @@
       >
       <span class="badge badge-success product mb-4 ml-2">SALE</span> -->
 
-      <h3 class="h3-responsive text-center text-md-left mb-5 ml-xl-0 ml-4">
+      <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
         <span class="red-text font-weight-bold">
-          <strong>$1449</strong>
+          <strong>{{ currentProductDetail.price }} ₫</strong>
         </span>
-        <span class="grey-text">
+        <!-- <span class="grey-text">
           <small>
-            <s>{{ product.productDetailDtos[0].price }}</s>
+            <s>{{ product.productDetailDtos[0].price }} ₫</s>
           </small>
-        </span>
+        </span> -->
       </h3>
 
+      <p-divider></p-divider>
       <div class="font-weight-normal">
-        <p class="ml-xl-0 ml-4">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente
-          nesciunt atque nemo neque ut officiis nostrum incidunt maiores, magni
-          optio et sunt suscipit iusto nisi totam quis, nobis mollitia
-          necessitatibus.
-        </p>
-
-        <p class="ml-xl-0 ml-4"><strong>Storage: </strong>64GB</p>
-        <p class="ml-xl-0 ml-4"><strong>Size: </strong>9.6-inch</p>
-        <p class="ml-xl-0 ml-4"><strong>Resolution: </strong>2048 x 1536</p>
-        <p class="ml-xl-0 ml-4"><strong>Availability: </strong>In stock</p>
-
-        <div class="mt-5">
-          <p class="grey-text">Choose your color</p>
-          <div class="row text-center text-md-left">
-            <div class="col-md-4 col-12">
-              <div class="form-group">
-                <input
-                  class="form-check-input"
-                  name="group100"
-                  type="radio"
-                  id="radio100"
-                  checked="checked"
-                />
-                <label for="radio100" class="form-check-label dark-grey-text"
-                  >White</label
-                >
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <input
-                  class="form-check-input"
-                  name="group100"
-                  type="radio"
-                  id="radio101"
-                />
-                <label for="radio101" class="form-check-label dark-grey-text"
-                  >Silver</label
-                >
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <input
-                  class="form-check-input"
-                  name="group100"
-                  type="radio"
-                  id="radio102"
-                />
-                <label for="radio102" class="form-check-label dark-grey-text"
-                  >Gold</label
-                >
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3 mb-4">
-            <div class="col-md-12 text-center text-md-left text-md-right">
-              <button class="btn btn-primary btn-rounded">
-                <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Add to
-                cart
+        <ng-container
+          *ngFor="let option of product.optionDtos; let i_option = index"
+        >
+          <h5>{{ option.optionName }}</h5>
+          <div class="mb-5">
+            <ng-container
+              *ngFor="
+                let optionValue of option.optionValueDtos;
+                let i_optionValue = index
+              "
+            >
+              <button
+                type="button"
+                [class]="
+                  currentProductDetail!.productVariantCombinationDtos![i_option]
+                    .optionValueDto!.id == optionValue.id
+                    ? 'btn btn-lg m-1 btn-outline-primary'
+                    : 'btn  btn-lg m-1 btn-outline-secondary'
+                "
+                data-mdb-ripple-color="dark"
+                (click)="selectOptionValue(i_option, option.id, optionValue.id)"
+              >
+                {{ optionValue.optionValueName }}
               </button>
-            </div>
+            </ng-container>
           </div>
-        </div>
+        </ng-container>
+      </div>
+      <div>
+        <p-button
+          label="Mua ngay"
+          icon="pi pi-check"
+          styleClass="p-button-lg mr-2"
+        ></p-button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Đặt hàng ngay"
+          icon="pi pi-cart-plus"
+          class="p-button-lg p-button-outlined p-button-danger"
+        ></button>
       </div>
     </div>
+  </div>
+  <h2 class="mt-3 mb-3 text-center">Thông tin thêm</h2>
+  <div class="card rounded-5">
+    <p-tabView>
+      <p-tabPanel header="Chi tiết sản phẩm">
+        <span [innerHTML]="product.detail"></span>
+      </p-tabPanel>
+      <p-tabPanel header="Thông số kĩ thuật">
+        <div class="col-lg-8 col-md-10 col-sm-12 m-auto">
+          <p-table
+            [value]="product.specificationGroupDtos!"
+            responsiveLayout="scroll"
+          >
+            <ng-template pTemplate="body" let-specificationGroup>
+              <tr>
+                <td
+                  colspan="2"
+                  style="
+                    background-color: #3f51b5;
+                    color: white;
+                    text-align: center;
+                    border-radius: 10px;
+                  "
+                >
+                  <b>{{ specificationGroup.specificationGroupName }}</b>
+                </td>
+              </tr>
+              <ng-container
+                *ngFor="
+                  let specification of specificationGroup.specificationDtos
+                "
+              >
+                <tr>
+                  <td>
+                    <b>{{ specification.specificationName }}</b>
+                  </td>
+                  <td>
+                    {{
+                      specification.productSpecificationDtos
+                        .productSpecificationName
+                    }}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Mô tả">
+        <span [innerHTML]="product.description"></span>
+      </p-tabPanel>
+    </p-tabView>
+    <h2 class="mt-3 mb-3 text-center">Sản phẩm tương tự</h2>
   </div>
 </section>
 <!--Section: Content-->
