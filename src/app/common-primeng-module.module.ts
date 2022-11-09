@@ -5,6 +5,10 @@ import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
 @NgModule({
   declarations: [],
   imports: [
@@ -14,6 +18,10 @@ import { TableModule } from 'primeng/table';
     DividerModule,
     TabViewModule,
     TableModule,
+    InputTextModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CheckboxModule,
   ],
   exports: [
     ButtonModule,
@@ -22,6 +30,10 @@ import { TableModule } from 'primeng/table';
     DividerModule,
     TabViewModule,
     TableModule,
+    InputTextModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CheckboxModule,
   ],
 })
 export class CommonPrimengModuleModule {}
