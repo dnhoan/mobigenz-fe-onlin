@@ -3,7 +3,7 @@ import { ProductDetailCartDto } from './ProductDetailCartDto';
 export interface CartItemDto {
   id?: number;
   totalMoney?: number;
-  amount: 0;
+  amount: number;
   mtime?: string;
   productDetailCartDto?: ProductDetailCartDto;
 }

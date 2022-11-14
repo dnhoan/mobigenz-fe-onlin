@@ -3,6 +3,6 @@ export interface ProductDetailCartDto {
   price: 0;
   sku?: string;
   image?: string;
-  stock: 0;
+  stock: number;
   productName?: string;
 }
