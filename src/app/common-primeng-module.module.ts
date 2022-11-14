@@ -9,6 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 @NgModule({
   declarations: [],
   imports: [
@@ -22,6 +25,9 @@ import { CheckboxModule } from 'primeng/checkbox';
     RadioButtonModule,
     InputTextareaModule,
     CheckboxModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
   ],
   exports: [
     ButtonModule,
@@ -34,6 +40,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     RadioButtonModule,
     InputTextareaModule,
     CheckboxModule,
+    ToastModule,
   ],
 })
 export class CommonPrimengModuleModule {}

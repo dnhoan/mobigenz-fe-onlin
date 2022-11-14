@@ -2,7 +2,7 @@
   <div class="row mt-5">
     <div class="col-lg-7 showImages">
       <p-galleria
-        [value]="images"
+        [value]="product.images"
         [responsiveOptions]="responsiveOptions"
         [containerStyle]="{
           height: '600px'
@@ -43,7 +43,7 @@
 
       <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
         <span class="red-text font-weight-bold">
-          <strong>{{ currentProductDetail.price }} ₫</strong>
+          <strong>{{ currentProductDetail.priceSell }} ₫</strong>
         </span>
         <!-- <span class="grey-text">
           <small>
