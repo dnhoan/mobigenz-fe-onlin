@@ -5,23 +5,46 @@
     <div class="row d-flex justify-content-between">
       <div class="mb-3 col-lg-6 col-cm-12">
         <label for="name" class="form-label">Họ và tên</label>
-        <input style="width: 100%" type="text" id="name" pInputText />
+        <input
+          style="width: 100%"
+          type="text"
+          id="name"
+          pInputText
+          [(ngModel)]="order.recipientName"
+        />
       </div>
       <div class="mb-3 col-lg-6 col-cm-12">
         <label for="phoneNumber" class="form-label">Số điện thoại</label>
-        <input style="width: 100%" type="text" id="phoneNumber" pInputText />
+        <input
+          style="width: 100%"
+          type="text"
+          id="phoneNumber"
+          pInputText
+          [(ngModel)]="order.recipientPhone"
+        />
       </div>
     </div>
     <div class="row">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input style="width: 100%" type="email" id="email" pInputText />
+        <input
+          style="width: 100%"
+          type="email"
+          id="email"
+          pInputText
+          [(ngModel)]="order.recipientEmail"
+        />
       </div>
     </div>
     <div class="row">
       <div class="mb-3">
         <label for="note" class="form-label">Ghi chú</label>
-        <textarea rows="2" style="width: 100%" pInputTextarea></textarea>
+        <textarea
+          rows="2"
+          style="width: 100%"
+          pInputTextarea
+          [(ngModel)]="order.note"
+        ></textarea>
       </div>
     </div>
     <h4>Phương thức nhận hàng</h4>
@@ -58,8 +81,9 @@
                 <div class="col-9 d-flex align-items-center p-0">
                   <p-radioButton
                     name="address"
-                    [value]="address"
-                    [(ngModel)]="addressSelected"
+                    [value]="address.id"
+                    [ngModel]="addressSelected.id"
+                    (ngModelChange)="onChangeAddressSelected(address.id)"
                     inputId="{{ address.id }}"
                   ></p-radioButton>
                   <label class="mb-0 ms-2" for="{{ address.id }}">{{
@@ -88,23 +112,23 @@
         <div class="product-item">
           <div class="image-container">
             <img
-              [src]="cartItem.productDetailCartDto.image"
-              [alt]="cartItem.productDetailCartDto.productName"
+              [src]="cartItem.productDetailCartDto!.image"
+              [alt]="cartItem.productDetailCartDto!.productName"
               class="product-image"
             />
           </div>
           <div class="product-list-detail">
             <h6 class="mb-2">
-              <b>{{ cartItem.productDetailCartDto.productName }}</b>
+              <b>{{ cartItem.productDetailCartDto!.productName }}</b>
             </h6>
             <i class="pi pi-tag product-category-icon"></i>
             <span class="product-category">{{
-              cartItem.productDetailCartDto.sku
+              cartItem.productDetailCartDto!.sku
             }}</span>
           </div>
           <div class="product-list-action">
             <h6 class="mb-2">
-              <b>{{ cartItem.productDetailCartDto.price }} ₫</b>
+              <b>{{ cartItem.productDetailCartDto!.price }} ₫</b>
             </h6>
             <!-- 'product-badge status-' + product.inventoryStatus.toLowerCase() -->
             <span [class]="">{{ cartItem.amount }}</span>
@@ -119,7 +143,7 @@
         </h5>
       </div>
       <p-divider></p-divider>
-      <h5>Phương thức thanh toán</h5>
+      <!-- <h5>Phương thức thanh toán</h5>
       <div class="money mb-3">
         <p-radioButton
           name="city"
@@ -137,7 +161,7 @@
           inputId="city2"
         ></p-radioButton>
         <label for="city2" class="mb-0 ps-2">Chuyển khoản</label>
-      </div>
+      </div> -->
       <div class="field-checkbox d-flex align-items-start mb-3">
         <p-checkbox
           [(ngModel)]="checked"
@@ -150,7 +174,8 @@
       </div>
       <div class="d-flex justify-content-end">
         <p-button
-          label="Thanh toán"
+          (onClick)="submit()"
+          label="Đặt hàng"
           icon="pi pi-wallet"
           styleClass="{'width': '100%'}"
         ></p-button>
@@ -158,3 +183,4 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>

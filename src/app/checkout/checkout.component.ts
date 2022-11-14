@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { CartService } from '../cart/cart.service';
+import { CartDto } from '../DTOs/CartDto';
+import { CustomerDto } from '../DTOs/CustomerDto';
 import { CustomersAddress } from '../DTOs/CustomersAddress';
+import { OrderDetailDto } from '../DTOs/OrderDetailDto';
+import { OrderDto } from '../DTOs/OrderDto';
 import { CheckoutService } from './checkout.service';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
+  providers: [MessageService],
 })
 export class CheckoutComponent implements OnInit {
   isDelivery: string = '1';
@@ -13,48 +20,87 @@ export class CheckoutComponent implements OnInit {
   addressSelected!: CustomersAddress;
   checked = false;
   city!: string;
-  cart = {
-    id: 1,
-    totalMoney: 100000000,
-    itemsAmount: 4,
-    cartItemDtos: [
-      {
-        id: 1,
-        amount: 1,
-        productDetailCartDto: {
-          id: 221,
-          price: 27000000,
-          sku: '12gb, Đỏ',
-          image:
-            'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667723707841?alt=media&token=3e5ebe6d-6a3b-45c5-8974-c023fe2f5e07',
-          productName: 'Samsung Galaxy S22 Ultra',
-        },
-      },
-      {
-        id: 2,
-        amount: 2,
-        productDetailCartDto: {
-          id: 216,
-          price: 22000000,
-          sku: '12gb, Xanh',
-          image:
-            'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667723632280?alt=media&token=0f509aa2-2431-4d56-8567-3308f93faf17',
-          productName: 'Samsung Galaxy S22 Ultra',
-        },
-      },
-    ],
-  };
-  constructor(private checkoutService: CheckoutService) {}
+  cart: CartDto = {};
+
+  constructor(
+    private checkoutService: CheckoutService,
+    private cartService: CartService,
+    private message: MessageService
+  ) {}
 
   ngOnInit(): void {
+    this.cartService.getCart().subscribe((cart) => {
+      this.cart = cart;
+      console.log(this.cart);
+    });
     this.checkoutService.getAddressesByCustomerId(4).subscribe((res) => {
       this.addresses = res;
       if (this.addresses.length) {
         this.addressSelected = this.addresses.find(
-          (address) => address.id === 1
+          (address) => address.status === 1
         ) as CustomersAddress;
+        this.onChangeAddressSelected(this.addressSelected.id);
       }
-      console.log(this.addresses);
     });
   }
+  onChangeAddressSelected(id: number) {
+    this.addressSelected = this.addresses.find(
+      (address) => address.id === id
+    ) as CustomersAddress;
+    this.order.address =
+      this.addressSelected.detaiAddress +
+      ', ' +
+      this.addressSelected.ward +
+      ', ' +
+      this.addressSelected.district +
+      ', ' +
+      this.addressSelected.city;
+  }
+  submit() {
+    this.order = {
+      ...this.order,
+      orderDetailDtos: this.cart.cartItemDtos?.map((cartItem) => ({
+        priceSell: cartItem.productDetailCartDto?.price,
+        productPrice: cartItem.productDetailCartDto?.price,
+        amount: cartItem.amount,
+        productDetailDto: {
+          id: cartItem.productDetailCartDto?.id,
+        },
+        note: '',
+      })) as OrderDetailDto[],
+      quantity: this.cart.cartItemDtos?.length as number,
+      totalMoney: this.cart.totalMoney as number,
+      goodsValue: this.cart.totalMoney as number,
+    };
+    this.checkoutService.createOrder(this.order).subscribe((res) => {
+      if (res) {
+        this.message.add({
+          severity: 'success',
+          summary: 'Thành công',
+          detail: 'Tạo đơn hàng thành công',
+        });
+      }
+    });
+  }
+
+  order: OrderDto = {
+    address: '',
+    carrier: '',
+    checkout: 0,
+    customerDTO: {
+      id: 4,
+    } as CustomerDto,
+    goodsValue: 0,
+    id: 0,
+    note: '',
+    orderDetailDtos: [],
+    orderStatus: 0,
+    payStatus: 0,
+    quantity: 0,
+    recipientEmail: '',
+    recipientName: '',
+    recipientPhone: '',
+    shipFee: 0,
+    totalMoney: 0,
+  };
 }
