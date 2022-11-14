@@ -13,6 +13,8 @@ import { ProductsComponent } from './content/products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonPrimengModuleModule } from './common-primeng-module.module';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { CommonPrimengModuleModule } from './common-primeng-module.module';
     CartComponent,
     ProductsComponent,
     ProductDetailComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { CommonPrimengModuleModule } from './common-primeng-module.module';
     BrowserAnimationsModule,
     CommonPrimengModuleModule,
     MDBBootstrapModule.forRoot(),
+    FormsModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'vi-VI' }],
   bootstrap: [AppComponent],
