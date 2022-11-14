@@ -11,8 +11,9 @@ import { ProductDetailCartDto } from 'src/app/DTOs/ProductDetailCartDto';
 })
 export class CartComponent implements OnInit {
   cart: CartDto = {};
+  cart_id = 1;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe((cart) => {
@@ -20,5 +21,24 @@ export class CartComponent implements OnInit {
       console.log(this.cart);
     });
     console.log(this.cart);
+  }
+
+  deleteCartItem(cart_item_id: any) {
+    this.cartService.deleteCartItem(cart_item_id).subscribe();
+  }
+
+  addCartItem(cart_id: any, cart_item_id: any) {
+    let cartItem: CartItemDto = <CartItemDto>{};
+    cart_id = this.cart_id;
+    cartItem.id = cart_item_id;
+    this.cartService.addCartItem(cartItem);
+    this.cartService.getCart();
+  }
+
+  saveCartItem(cart_item_id: any, cart_item_amount: any) {
+    let cartItem: CartItemDto = <CartItemDto>{};
+    cartItem.id = cart_item_id;
+    cartItem.amount = cart_item_amount;
+    this.cartService.updateCartItem(cartItem);
   }
 }
