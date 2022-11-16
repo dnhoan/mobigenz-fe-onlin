@@ -1,7 +1,13 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS, HttpRequest, } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MenubarModule } from 'primeng/menubar';
+import { DialogModule } from 'primeng/dialog';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { AuthInterceptor } from './interceptor/auth-interceptor.js';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
@@ -18,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
+
     AppComponent,
     MenuComponent,
     FooterComponent,
@@ -26,8 +33,10 @@ import { FormsModule } from '@angular/forms';
     ProductsComponent,
     ProductDetailComponent,
     CheckoutComponent,
+    LoginComponent,
   ],
   imports: [
+
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -35,8 +44,19 @@ import { FormsModule } from '@angular/forms';
     CommonPrimengModuleModule,
     MDBBootstrapModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
+    DialogModule,
+    MenubarModule,
+    MessageModule,
+    MessagesModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'vi-VI' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'vi-VI' },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  },
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
