@@ -1,18 +1,18 @@
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark indigo">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark indigo">
   <div class="container">
-    <a class="navbar-brand py-0" href="#"><i class="fas fa-store"></i>MobigenZ</a>
+    <a class="navbar-brand py-0" href="#"><i class="fas fa-store"></i>MobigenZ</a> -->
 
     <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
       aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button> -->
 
     <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
+    <!-- <div class="collapse navbar-collapse" id="basicExampleNav"> -->
       <!-- Links -->
-      <ul class="navbar-nav mr-auto text-uppercase">
+      <!-- <ul class="navbar-nav mr-auto text-uppercase">
         <li class="nav-item active">
           <a class="nav-link font-weight-normal">Home</a>
         </li>
@@ -22,10 +22,10 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Contact</a>
         </li>
-      </ul>
+      </ul> -->
       <!-- Links -->
 
-      <ul class="nav navbar-nav nav-flex-icons ml-auto">
+      <!-- <ul class="nav navbar-nav nav-flex-icons ml-auto">
         <li class="nav-item">
           <a routerLink="cart" class="nav-link waves-effect"><span class="badge red z-depth-1 mr-1"> 2 </span><i
               id="navbar-static-cart" alt="Cart" class="fas fa-shopping-cart"></i><span class="sr-only"> Cart
@@ -48,9 +48,34 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
+        <li>
+          <div class="btn-group shadow-0">
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a routerLink="login">Login</a>
+        </li>
       </ul>
     </div>
-    <!-- Collapsible content -->
+    Collapsible content
   </div>
-</nav>
+
+
+</nav> -->
+
+<p-menubar [model]="items">
+  <ng-template  pTemplate="start">
+  </ng-template>
+  <ng-template pTemplate="end">
+      <input type="text" pInputText placeholder="Search">
+  </ng-template>
+</p-menubar>
+
 <!--/.Navbar-->
