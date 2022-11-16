@@ -14,20 +14,6 @@ import { ProductDetailService } from './product-detail.service';
 export class ProductDetailComponent implements OnInit {
   product!: ProductDto;
   currentProductDetail!: ProductDetailDto;
-  images = [
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667029337004?alt=media&token=1fbf5921-c469-4fef-a00f-d92080d7666b',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667222407907?alt=media&token=e1ba2ba5-14ff-45e6-8fc8-900e1ca33227',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404370071?alt=media&token=364d2352-3052-451f-a80d-d459ae23248e',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404367116?alt=media&token=5a4f8ec5-1e12-4dbb-8959-f04a8b1d83db',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667029337004?alt=media&token=1fbf5921-c469-4fef-a00f-d92080d7666b',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667222407907?alt=media&token=e1ba2ba5-14ff-45e6-8fc8-900e1ca33227',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404370071?alt=media&token=364d2352-3052-451f-a80d-d459ae23248e',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404367116?alt=media&token=5a4f8ec5-1e12-4dbb-8959-f04a8b1d83db',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667029337004?alt=media&token=1fbf5921-c469-4fef-a00f-d92080d7666b',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667222407907?alt=media&token=e1ba2ba5-14ff-45e6-8fc8-900e1ca33227',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404370071?alt=media&token=364d2352-3052-451f-a80d-d459ae23248e',
-    'https://firebasestorage.googleapis.com/v0/b/mobigenz-327dd.appspot.com/o/product_images%2F1667404367116?alt=media&token=5a4f8ec5-1e12-4dbb-8959-f04a8b1d83db',
-  ];
   responsiveOptions: any[] = [
     {
       breakpoint: '1024px',

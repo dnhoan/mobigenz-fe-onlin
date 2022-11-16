@@ -5,6 +5,13 @@ import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 @NgModule({
   declarations: [],
   imports: [
@@ -14,6 +21,13 @@ import { TableModule } from 'primeng/table';
     DividerModule,
     TabViewModule,
     TableModule,
+    InputTextModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CheckboxModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
   ],
   exports: [
     ButtonModule,
@@ -22,6 +36,11 @@ import { TableModule } from 'primeng/table';
     DividerModule,
     TabViewModule,
     TableModule,
+    InputTextModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CheckboxModule,
+    ToastModule,
   ],
 })
 export class CommonPrimengModuleModule {}

@@ -1,9 +1,9 @@
-import { ProductDetailCartDto } from "./ProductDetailCartDto";
+import { ProductDetailCartDto } from './ProductDetailCartDto';
 
 export interface CartItemDto {
-    id?: number,
-    totalMoney?: number,
-    amount?: number,
-    mtime?: string,
-    productDetailCartDto?: ProductDetailCartDto
+  id?: number;
+  totalMoney?: number;
+  amount: number;
+  mtime?: string;
+  productDetailCartDto?: ProductDetailCartDto;
 }

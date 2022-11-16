@@ -1,10 +1,8 @@
-<!--Section: Content-->
-<section class="container" *ngIf="product">
-  <!-- Section heading -->
+<ng-container *ngIf="product">
   <div class="row mt-5">
     <div class="col-lg-7 showImages">
       <p-galleria
-        [value]="images"
+        [value]="product.images"
         [responsiveOptions]="responsiveOptions"
         [containerStyle]="{
           height: '600px'
@@ -45,7 +43,7 @@
 
       <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
         <span class="red-text font-weight-bold">
-          <strong>{{ currentProductDetail.price }} ₫</strong>
+          <strong>{{ currentProductDetail.priceSell }} ₫</strong>
         </span>
         <!-- <span class="grey-text">
           <small>
@@ -154,5 +152,4 @@
     </p-tabView>
     <h2 class="mt-3 mb-3 text-center">Sản phẩm tương tự</h2>
   </div>
-</section>
-<!--Section: Content-->
+</ng-container>
