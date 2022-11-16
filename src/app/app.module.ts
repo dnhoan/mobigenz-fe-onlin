@@ -15,6 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonPrimengModuleModule } from './common-primeng-module.module';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     ProductsComponent,
     ProductDetailComponent,
     CheckoutComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,11 @@ import { FormsModule } from '@angular/forms';
     MDBBootstrapModule.forRoot(),
     FormsModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'vi-VI' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'en-US' },
+    MessageService,
+    ConfirmationService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

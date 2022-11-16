@@ -1,6 +1,6 @@
 export interface ProductDetailCartDto {
   id?: number;
-  price: 0;
+  price: number;
   sku?: string;
   image?: string;
   stock: number;

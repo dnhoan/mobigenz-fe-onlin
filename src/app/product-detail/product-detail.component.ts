@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { CartService } from '../cart/cart.service';
+import { CartItemDto } from '../DTOs/CartItemDto';
 import { OptionValueDto } from '../DTOs/OptionValueDto';
 import { ProductDetailDto } from '../DTOs/ProductDetailDto';
 import { ProductDto } from '../DTOs/ProductDto';
@@ -30,7 +33,9 @@ export class ProductDetailComponent implements OnInit {
   ];
   constructor(
     private route: ActivatedRoute,
-    private productDetailService: ProductDetailService
+    private productDetailService: ProductDetailService,
+    private cartService: CartService,
+    private message: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -65,5 +70,25 @@ export class ProductDetailComponent implements OnInit {
       return check;
     });
     this.currentProductDetail = productDetails[0];
+  }
+
+  addToCart() {
+    this.cartService
+      .addToCart(4, {
+        totalMoney: this.currentProductDetail.priceSell,
+        amount: 1,
+        productDetailCartDto: {
+          id: this.currentProductDetail.id,
+          price: this.currentProductDetail.priceSell,
+          stock: 0,
+        },
+      })
+      .subscribe((res: any) => {
+        if (res) {
+          console.log(res);
+        }
+        console.log(res);
+      });
+    console.log(this.currentProductDetail);
   }
 }

@@ -12,6 +12,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { OrderListModule } from 'primeng/orderlist';
+import { TagModule } from 'primeng/tag';
 @NgModule({
   declarations: [],
   imports: [
@@ -28,6 +33,11 @@ import { MessageModule } from 'primeng/message';
     ToastModule,
     MessagesModule,
     MessageModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
+    DialogModule,
+    OrderListModule,
+    TagModule,
   ],
   exports: [
     ButtonModule,
@@ -41,6 +51,11 @@ import { MessageModule } from 'primeng/message';
     InputTextareaModule,
     CheckboxModule,
     ToastModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
+    DialogModule,
+    OrderListModule,
+    TagModule,
   ],
 })
 export class CommonPrimengModuleModule {}

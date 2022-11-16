@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { CartService } from '../cart/cart.service';
 import { CartDto } from '../DTOs/CartDto';
+import { CartItemDto } from '../DTOs/CartItemDto';
 import { CustomerDto } from '../DTOs/CustomerDto';
 import { CustomersAddress } from '../DTOs/CustomersAddress';
 import { OrderDetailDto } from '../DTOs/OrderDetailDto';
 import { OrderDto } from '../DTOs/OrderDto';
+import { OrderService } from '../orders/order.service';
 import { CheckoutService } from './checkout.service';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
-  providers: [MessageService],
 })
 export class CheckoutComponent implements OnInit {
   isDelivery: string = '1';
@@ -21,16 +22,19 @@ export class CheckoutComponent implements OnInit {
   checked = false;
   city!: string;
   cart: CartDto = {};
+  totalMoney = 0;
 
   constructor(
     private checkoutService: CheckoutService,
     private cartService: CartService,
-    private message: MessageService
+    private message: MessageService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe((cart) => {
       this.cart = cart;
+      this.calculateTotalMoney();
       console.log(this.cart);
     });
     this.checkoutService.getAddressesByCustomerId(4).subscribe((res) => {
@@ -63,7 +67,7 @@ export class CheckoutComponent implements OnInit {
         priceSell: cartItem.productDetailCartDto?.price,
         productPrice: cartItem.productDetailCartDto?.price,
         amount: cartItem.amount,
-        productDetailDto: {
+        productDetailCartDto: {
           id: cartItem.productDetailCartDto?.id,
         },
         note: '',
@@ -72,17 +76,14 @@ export class CheckoutComponent implements OnInit {
       totalMoney: this.cart.totalMoney as number,
       goodsValue: this.cart.totalMoney as number,
     };
-    this.checkoutService.createOrder(this.order).subscribe((res) => {
-      if (res) {
-        this.message.add({
-          severity: 'success',
-          summary: 'Thành công',
-          detail: 'Tạo đơn hàng thành công',
-        });
-      }
-    });
+    this.orderService.createOrder(this.order).subscribe();
   }
-
+  calculateTotalMoney() {
+    this.totalMoney = this.cart.cartItemDtos!.reduce(
+      (b, a: CartItemDto) => b + a.productDetailCartDto!.price * a.amount,
+      0
+    );
+  }
   order: OrderDto = {
     address: '',
     carrier: '',

@@ -128,7 +128,7 @@
           </div>
           <div class="product-list-action">
             <h6 class="mb-2">
-              <b>{{ cartItem.productDetailCartDto!.price }} ₫</b>
+              <b>{{ cartItem.productDetailCartDto!.price | number }} ₫</b>
             </h6>
             <!-- 'product-badge status-' + product.inventoryStatus.toLowerCase() -->
             <span [class]="">{{ cartItem.amount }}</span>
@@ -139,7 +139,7 @@
       <div class="d-flex justify-content-between mt-4 mb-2">
         <h5><b>Tổng tiền</b></h5>
         <h5 class="color-danger">
-          <b>{{ cart.totalMoney }} ₫</b>
+          <b>{{ totalMoney | number }} ₫</b>
         </h5>
       </div>
       <p-divider></p-divider>
@@ -183,4 +183,3 @@
     </div>
   </div>
 </div>
-<p-toast></p-toast>
