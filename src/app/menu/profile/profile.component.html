@@ -1,0 +1,88 @@
+<form class="formProfile" [formGroup]="formProfile">
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="row mb-4 mt-5">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example1">Tên người dùng</label>
+        <input formControlName="customerName" type="text" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">Số ĐT</label>
+        <input formControlName="phoneNumber" type="text" id="form6Example2" class="form-control" />
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example1">Ngày sinh</label>
+        <input formControlName="birthday"  type="date" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">Image</label>
+        <input formControlName="image" type="file" id="form6Example2" class="form-control" />
+        <!-- <a type="image" formControlName="image"></a> -->
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example1">Email</label>
+        <input formControlName="email" type="text" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">Giới tính</label>
+       <select formControlName="gender" id="gender" class="form-control">
+        <option value="1">Nam</option>
+        <option value="2">Nữ</option>
+       </select>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example1">Loại khách hàng</label>
+        <select formControlName="customerType" id="customerType" class="form-control">
+          <option value="1">Công ty</option>
+          <option value="0">Cá nhân</option>
+         </select>
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">CCCD</label>
+        <input formControlName="citizenIdentifyCart" type="text" id="form6Example2" class="form-control" />
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">Trạng thái</label>
+        <select formControlName="status" id="status" class="form-control">
+          <option value="1">Active</option>
+          <option value="0">InActive</option>
+         </select>
+      </div>
+    </div>
+  </div>
+  <!-- Checkbox -->
+  <!-- <div class="form-check d-flex justify-content-center mb-4">
+    <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
+    <label class="form-check-label" for="form6Example8"> Nam? </label>
+    <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
+    <label class="form-check-label" for="form6Example8"> Nữ? </label>
+  </div> -->
+
+
+  <!-- Submit button -->
+  <button type="submit" (click)="update()" class="btn btn-primary btn-block mb-4 justify-content-center">Cập nhật</button>
+</form>

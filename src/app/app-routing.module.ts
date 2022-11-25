@@ -4,7 +4,10 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ContentComponent } from './content/content.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ChangePassComponent } from './login/forgot/changePass/changePass.component';
+import { ForgotComponent } from './login/forgot/forgot.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './menu/profile/profile.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 const routes: Routes = [
@@ -37,6 +40,18 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LoginComponent
+  },
+  {
+    path:'forgot',
+    component: ForgotComponent
+  },
+  {
+    path:'changePass',
+    component: ChangePassComponent
+  },
+  {
+    path:'profile',
+    component: ProfileComponent
   }
 ];
 

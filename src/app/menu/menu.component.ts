@@ -37,7 +37,6 @@ export class MenuComponent implements OnInit {
           this.customer = value;
           console.log(value)
            this.items =  this.customer?this.deavtive():this.active();
-           console.log(this.customer?.customerName);
    })
 
 
@@ -107,6 +106,7 @@ export class MenuComponent implements OnInit {
         {
           label: 'Thông tin cá nhân',
           icon: 'pi pi-user',
+          routerLink:'profile'
         },
 
       ],
