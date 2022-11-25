@@ -21,6 +21,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonPrimengModuleModule } from './common-primeng-module.module';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { ForgotComponent } from './login/forgot/forgot.component';
+import { ForgotModule } from './login/forgot/forgot.module';
+import { ChangePassComponent } from './login/forgot/changePass/changePass.component';
+import { ProfileComponent } from './menu/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -33,17 +38,26 @@ import { FormsModule } from '@angular/forms';
     ProductsComponent,
     ProductDetailComponent,
     CheckoutComponent,
+    ForgotComponent,
     LoginComponent,
+    ChangePassComponent,
+    ProfileComponent
   ],
   imports: [
-
     BrowserModule,
     AppRoutingModule,
+    ForgotModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     CommonPrimengModuleModule,
     MDBBootstrapModule.forRoot(),
     FormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     ReactiveFormsModule,
     DialogModule,
     MenubarModule,

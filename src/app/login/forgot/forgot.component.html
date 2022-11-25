@@ -1,0 +1,25 @@
+
+
+
+<div class="container" id="container">
+  <a routerLink="login"><i class="pi pi-arrow-left mt-4 ml-3" (click)="back()" ></i></a>
+ <h2>Quên mật khẩu</h2>
+  <div class="form-container forgot-container">
+
+    <form [formGroup]="formForgot">
+      <div class="mb-4">
+        <label for="form2Example1">Email</label>
+        <input
+          type="email"
+          placeholder="Nhập email của bạn vào đây!"
+          formControlName="email"
+          id="form2Example1"
+          class="email form-control pt-2"
+        />
+      </div>
+      <div class="text-center" style="text-align: center;">
+        <button (click)="sendOTP()" type="submit" class="btn btn-primary">Lấy mã OTP</button>
+      </div>
+    </form>
+  </div>
+</div>
