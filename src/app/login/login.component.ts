@@ -7,8 +7,8 @@ import { CustomerService } from 'src/service/customer.service';
 import { SessionService } from 'src/service/session.service';
 import { TokenService } from 'src/service/token.service';
 import { Account, Customer } from './account.model';
-import {Message} from 'primeng//api';
-import {MessageService} from 'primeng/api';
+import { Message } from 'primeng//api';
+import { MessageService } from 'primeng/api';
 import { InfoService } from 'src/service/infoCustomer.service';
 
 @Component({
@@ -23,13 +23,11 @@ export class LoginComponent implements OnInit {
   isSubmitted = false;
   // account: Account ={};
   roles: string[] = [];
-  account: Account ={};
+  account: Account = {};
   isLoggedIn = false;
-  urlCustomer = "http://localhost:9090/api/getCustomerByAccountId=accountId?";
+  urlCustomer = 'http://localhost:9090/api/getCustomerByAccountId=accountId?';
   email!: String;
-  customer: Customer ={};
-
-
+  customer: Customer = {};
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +38,8 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService,
     private customerService: CustomerService,
     private messageService: MessageService,
-    private infoService: InfoService) {}
+    private infoService: InfoService
+  ) {}
 
   ngOnInit() {
     if (this.tokenService.getToken()) {
@@ -51,17 +50,31 @@ export class LoginComponent implements OnInit {
   }
 
   addSingle() {
-    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-}
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Service Message',
+      detail: 'Via MessageService',
+    });
+  }
 
-addMultiple() {
-    this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
-                    {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
-}
+  addMultiple() {
+    this.messageService.addAll([
+      {
+        severity: 'success',
+        summary: 'Service Message',
+        detail: 'Via MessageService',
+      },
+      {
+        severity: 'info',
+        summary: 'Info Message',
+        detail: 'Via MessageService',
+      },
+    ]);
+  }
 
-clear() {
+  clear() {
     this.messageService.clear();
-}
+  }
 
   initForm() {
     this.formLogin = this.fb.group({
@@ -90,17 +103,15 @@ clear() {
         this.tokenService.saveAccount(jwtDecode.sub);
         const role = jwtDecode.auth.split(',');
         // this.saveAccount();
-        const email = this.sessionService.getItem('auth-user');
+        const email = this.sessionService.getItemCus('auth-user');
         this.accountService.getAccountByEmail(email).subscribe((res) => {
           localStorage.setItem('id-account', res.data.account.id);
           // this.getByUserName();
           this.infoService.getCustomer();
-
         });
         if (localStorage.getItem('auth-token')) {
           this.router.navigate(['/home']);
           return;
-
         }
         // this.roles = this.tokenService.getUser().roles;
         this.router.navigate(['/home']);
@@ -110,11 +121,7 @@ clear() {
 
   registerAccount() {
     this.addValueAccount();
-    this.accountService.register(this.account).subscribe(
-      (res) => {
-
-      },
-    );
+    this.accountService.register(this.account).subscribe((res) => {});
   }
 
   addValueAccount() {
@@ -128,7 +135,6 @@ clear() {
     //   this.account.status = 0;
     // }
   }
-
 
   // getByUserName(){
   //   const accountId = this.sessionService.getItem('id-account');
