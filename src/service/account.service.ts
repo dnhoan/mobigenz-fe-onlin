@@ -50,14 +50,6 @@ export class AccountService {
       '&descAsc=' + descAsc, dto);
   }
 
-  sendOTP(email: any): Observable<any> {
-    return this.http.get<any>(this.apiAccount + "forgot?email="+ email);
-  }
-
-  getOTP(email: any): Observable<any> {
-    return this.http.get<any>(this.apiAccount + "getOTP?email="+ email);
-  }
-
   getDecodedAccessToken(): any {
     const token = localStorage.getItem('auth-token');
     try {

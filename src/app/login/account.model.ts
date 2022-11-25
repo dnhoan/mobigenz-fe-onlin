@@ -43,4 +43,17 @@ export interface Customer{
   status?: number;
 }
 
+export interface CustomerDTO{
+  id?: number;
+  customerName?: string;
+  phoneNumber?: Date;
+  birthday?: Date;
+  image?: string;
+  email?: string;
+  gender?: number;
+  citizenIdentifyCart?: string;
+  customerType?: number;
+  status?: number;
+}
+
 

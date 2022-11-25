@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Customer } from 'src/app/login/account.model';
 import { environment } from 'src/environments/environment';
 import { SessionService } from './session.service';
 
@@ -16,28 +17,36 @@ export class CustomerService {
     ) {
   }
 
-  getAll(): Observable<any> {
-    return this.http.get<any>(this.apiCustomer + "customers");
+  getAll(offset: any, limit: any): Observable<any> {
+    return this.http.get<any>(this.apiCustomer + "admin/customers?offset=" + offset + "&limit=" + limit
+    );
   }
 
 
   getCustomerById(id: any): Observable<any> {
-    return this.http.get<any>(this.apiCustomer + "customers/" + id);
+    return this.http.get<any>(this.apiCustomer + "admin/customers/getCustomerById" + id);
   }
 
   getCustomerByAccountId(accountId: any): Observable<any> {
-    return this.http.get<any>(this.apiCustomer + "getCustomerByAccountId?accountId=" + accountId);
+    return this.http.get<any>(this.apiCustomer + "admin/customers/getCustomerByAccountId?accountId=" + accountId);
   }
 
   getCustomerByCusName(customerName: any): Observable<any> {
-    return this.http.get<any>(this.apiCustomer + "customers/customerName?customerName=" + customerName);
+    return this.http.get<any>(this.apiCustomer + "admin/customers/customerName?customerName=" + customerName);
   }
 
   getCustomerByEmail(email: any): Observable<any> {
-    return this.http.get<any>(this.apiCustomer + "customers/email?email=" + email);
+    return this.http.get<any>(this.apiCustomer + "admin/customers/email?email=" + email);
+  }
+
+  addCustomer(customer: Customer): Observable<any> {
+    return this.http.post(this.apiCustomer + 'customers', customer);
   }
 
 
+  public updateCustomer(customer: Customer): Observable<any> {
+    return this.http.put<any>(this.apiCustomer + 'admin/customers', customer);
+  }
 
 
 }

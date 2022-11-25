@@ -19,11 +19,7 @@ export class LoginService {
   public customerUrl = new BehaviorSubject<string>('');
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private sessionService: SessionService,
-    private customerService: CustomerService,
-    private accountService: AccountService
+    private http: HttpClient
   ) {}
 
   public login(form: any): Observable<any> {

@@ -37,7 +37,6 @@ export class TokenService {
     window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(account));
     // window.localStorage.setItem(customer: this.customerService.getCustomerByAccountId(this.accountService.getAccountById(USER_KEY)))
-    console.log(account);
 
   }
 

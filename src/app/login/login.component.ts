@@ -10,6 +10,7 @@ import { Account, Customer } from './account.model';
 import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { InfoService } from 'src/service/infoCustomer.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService,
     private customerService: CustomerService,
     private messageService: MessageService,
-    private infoService: InfoService
+    private infoService: InfoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -96,32 +98,43 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     if (this.formLogin.valid) {
-      this.authService.login(this.formLogin.value).subscribe((data) => {
-        this.isLoggedIn = true;
-        this.tokenService.saveToken(data.token);
-        const jwtDecode = this.accountService.getDecodedAccessToken();
-        this.tokenService.saveAccount(jwtDecode.sub);
-        const role = jwtDecode.auth.split(',');
-        // this.saveAccount();
-        const email = this.sessionService.getItemCus('auth-user');
-        this.accountService.getAccountByEmail(email).subscribe((res) => {
-          localStorage.setItem('id-account', res.data.account.id);
-          // this.getByUserName();
+      this.authService.login(this.formLogin.value).subscribe(
+        (data) => {
+          this.isLoggedIn = true;
+          this.tokenService.saveToken(data.token);
+          const jwtDecode = this.accountService.getDecodedAccessToken();
+          this.tokenService.saveAccount(jwtDecode.sub);
+          const role = jwtDecode.auth.split(',');
+          // const email = this.sessionService.getItemCus('auth-user');
           this.infoService.getCustomer();
-        });
-        if (localStorage.getItem('auth-token')) {
-          this.router.navigate(['/home']);
-          return;
+          console.log(this.infoService.getCustomer());
+
+          // this.customerService
+          //   .getCustomerByEmail(jwtDecode.sub)
+          //   .subscribe((res) => {
+          // //     localStorage.setItem('id-account', res.data.account.id);
+          //   });
+          if (localStorage.getItem('auth-token')) {
+            this.toastr.success('Đăng nhập thành công!');
+            this.router.navigate(['/home']);
+            return;
+          }
+        },
+        (error) => {
+          this.router.navigate(['/login']);
+          this.toastr.error('Tài khoản hoặc mật khẩu không chính xác!');
         }
-        // this.roles = this.tokenService.getUser().roles;
-        this.router.navigate(['/home']);
-      });
+      );
     }
   }
 
   registerAccount() {
     this.addValueAccount();
     this.accountService.register(this.account).subscribe((res) => {});
+  }
+
+  forgotPassword() {
+    this.router.navigate(['forgot']).then((r) => console.log(r));
   }
 
   addValueAccount() {

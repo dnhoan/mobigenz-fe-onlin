@@ -1,0 +1,42 @@
+
+<div class="container" id="container">
+  <a><i class="pi pi-arrow-left mt-4 ml-3" (click)="back()" ></i></a>
+  <div class="form-container changepass-container">
+
+    <form [formGroup]="formChangePass">
+      <div class="mb-4">
+        <label for="form2Example1">Mã OTP</label>
+        <input
+          type="number"
+          formControlName="otp"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+      </div>
+      <div class="text-center">
+      <button (click)="ChangePass()" type="submit" class="btn btn-primary">Xác thực OTP</button>
+      </div>
+      <div class="mb-4">
+        <label for="form2Example1">Mật khẩu mới</label>
+        <input
+          type="password"
+          formControlName="password"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="form2Example1">Nhập lại mật khẩu mới</label>
+        <input
+          type="password"
+          formControlName="repassword"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+      </div>
+      <div class="text-center">
+        <button (click)="ChangePass()" type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+      </div>
+    </form>
+  </div>
+</div>
