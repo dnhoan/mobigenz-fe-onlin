@@ -1,0 +1,79 @@
+<h2 class="text-center mt-4 mb-4">Giỏ hàng</h2>
+<div class="p-4 rounded-5 bg-white mb-5">
+  <table class="table" *ngIf="cart">
+    <thead>
+      <tr>
+        <th>Ảnh</th>
+        <th class="font-weight-bold">
+          <strong>Sản phẩm</strong>
+        </th>
+        <th class="font-weight-bold">
+          <strong>Giá</strong>
+        </th>
+        <th class="font-weight-bold">
+          <strong>Số lượng</strong>
+        </th>
+        <th class="font-weight-bold">
+          <strong>Thành tiền</strong>
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="" *ngFor="let cartItem of cart.cartItemDtos; let i = index">
+        <th scope="row">
+          <img
+            [src]="cartItem.productDetailCartDto!.image"
+            alt="productPic"
+            class="img-fluid z-depth-0"
+            style="width: 100px"
+          />
+        </th>
+        <td>
+          <h5 class="mt-3">
+            <strong>{{ cartItem.productDetailCartDto!.productName }}</strong>
+          </h5>
+          <p class="text-muted">{{ cartItem.productDetailCartDto!.sku }}</p>
+        </td>
+        <td>{{ cartItem.productDetailCartDto!.price | number }} đ</td>
+        <td>
+          <input
+            type="number"
+            min="1"
+            step="1"
+            [max]="cartItem.productDetailCartDto!.stock"
+            [(ngModel)]="cartItem.amount"
+            aria-label="Amount"
+            class="form-control"
+            style="width: 100px"
+            (change)="saveCartItem(cartItem.amount, i)"
+          />
+        </td>
+        <td class="font-weight-bold">
+          <strong
+            >{{
+              cartItem.productDetailCartDto!.price * cartItem.amount | number
+            }}
+            đ</strong
+          >
+        </td>
+
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteCartItem(cartItem.id, i)"
+          ></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-end mt-3">
+    <h3>Tổng tiền: {{ totalMoney | number }}đ</h3>
+    <a type="button" class="btn btn-lg btn-primary" [routerLink]="'/checkout'">
+      THANH TOÁN
+    </a>
+  </div>
+</div>
