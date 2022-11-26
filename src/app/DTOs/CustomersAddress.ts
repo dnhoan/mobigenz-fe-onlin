@@ -1,6 +1,6 @@
 export interface CustomersAddress {
   city: string;
-  detaiAddress: string;
+  detailAddress: string;
   district: string;
   id: number;
   status: number;

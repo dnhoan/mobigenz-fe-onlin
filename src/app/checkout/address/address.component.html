@@ -1,0 +1,47 @@
+<div>
+  <h5>Tỉnh / Thành Phố</h5>
+  <p-dropdown
+    [style]="{ width: '100%' }"
+    [options]="provinces"
+    [(ngModel)]="provinceSelected"
+    optionLabel="name"
+    placeholder="Chọn Tỉnh / Thành Phố"
+    (onChange)="changeProvince()"
+  ></p-dropdown>
+</div>
+<div>
+  <h5>Quận / Huyện</h5>
+  <p-dropdown
+    [style]="{ width: '100%' }"
+    class="w-100"
+    [options]="districts"
+    [(ngModel)]="districtSelected"
+    optionLabel="name"
+    placeholder="Chọn Quận / Huyện"
+    (onChange)="changeDistrict()"
+  ></p-dropdown>
+</div>
+<div>
+  <h5>Xã / Phường</h5>
+  <p-dropdown
+    [style]="{ width: '100%' }"
+    class="w-100"
+    [options]="warts"
+    [(ngModel)]="wartSelected"
+    optionLabel="name"
+    placeholder="Chọn Xã / Phường"
+    (onChange)="changeWart()"
+  ></p-dropdown>
+</div>
+<div>
+  <h5>Chi tiết</h5>
+
+  <textarea
+    [style]="{ width: '100%' }"
+    pInputTextarea
+    [(ngModel)]="address.detailAddress"
+  ></textarea>
+</div>
+<div class="float-end">
+  <button pButton type="button" (click)="save()" label="Lưu"></button>
+</div>
