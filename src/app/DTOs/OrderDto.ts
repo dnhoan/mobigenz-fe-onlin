@@ -20,6 +20,7 @@ export interface OrderDto {
   orderDetailDtos: OrderDetailDto[];
   transactionDto?: {};
   note: string;
+  cancelNote?: string;
   ctime?: string;
   mtime?: string;
 }

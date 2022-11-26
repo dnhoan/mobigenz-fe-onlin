@@ -43,7 +43,7 @@
 
       <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
         <span class="red-text font-weight-bold">
-          <strong>{{ currentProductDetail.priceSell }} ₫</strong>
+          <!-- <strong>{{ currentProductDetail.priceSell }} ₫</strong> -->
         </span>
         <!-- <span class="grey-text">
           <small>
@@ -68,6 +68,23 @@
               <button
                 type="button"
                 [class]="
+                  optionValue.selected
+                    ? 'btn btn-lg m-1 btn-outline-primary'
+                    : 'btn  btn-lg m-1 btn-outline-secondary'
+                "
+                (click)="
+                  selectOptionValue(
+                    i_option,
+                    i_optionValue,
+                    optionValue.selected
+                  )
+                "
+              >
+                {{ optionValue.optionValueName }}
+              </button>
+              <!-- <button
+                type="button"
+                [class]="
                   currentProductDetail!.productVariantCombinationDtos![i_option]
                     .optionValueDto!.id == optionValue.id
                     ? 'btn btn-lg m-1 btn-outline-primary'
@@ -77,7 +94,7 @@
                 (click)="selectOptionValue(i_option, option.id, optionValue.id)"
               >
                 {{ optionValue.optionValueName }}
-              </button>
+              </button> -->
             </ng-container>
           </div>
         </ng-container>
@@ -87,12 +104,14 @@
           label="Mua ngay"
           icon="pi pi-check"
           styleClass="p-button-lg mr-2"
+          (click)="addToCart(true)"
         ></p-button>
         <button
           pButton
           pRipple
+          (click)="addToCart()"
           type="button"
-          label="Đặt hàng ngay"
+          label="Thêm giỏ hàng"
           icon="pi pi-cart-plus"
           class="p-button-lg p-button-outlined p-button-danger"
         ></button>

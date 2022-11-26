@@ -1,5 +1,11 @@
 <app-menu></app-menu>
 <section class="container">
+  <p-toast></p-toast
+  ><p-confirmDialog
+    [style]="{ width: '600px' }"
+    [baseZIndex]="10000"
+    rejectButtonStyleClass="p-button-text"
+  ></p-confirmDialog>
   <router-outlet></router-outlet>
 </section>
 <app-footer></app-footer>

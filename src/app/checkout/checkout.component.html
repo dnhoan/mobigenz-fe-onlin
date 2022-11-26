@@ -69,12 +69,17 @@
       </div>
     </div>
     <ng-container *ngIf="isDelivery == '1'">
-      <h5>Địa chỉ nhận hàng <i class="bi bi-plus-square-dotted"></i></h5>
+      <h5>
+        Địa chỉ nhận hàng
+        <i class="bi bi-plus-square-dotted" (click)="showAddressDetail(-1)"></i>
+      </h5>
 
       <div>
         <div class="p-field-radiobutton" *ngIf="addresses.length">
           <ul class="list-group list-group-flush p-3">
-            <ng-container *ngFor="let address of addresses">
+            <ng-container
+              *ngFor="let address of addresses; let i_address = index"
+            >
               <li
                 class="list-group-item row d-flex justify-content-between p-0 mb-2 w-100"
               >
@@ -87,7 +92,7 @@
                     inputId="{{ address.id }}"
                   ></p-radioButton>
                   <label class="mb-0 ms-2" for="{{ address.id }}">{{
-                    address.detaiAddress +
+                    address.detailAddress +
                       ", " +
                       address.ward +
                       ", " +
@@ -97,8 +102,15 @@
                   }}</label>
                 </div>
                 <div class="col-3 d-flex justify-content-around p-0">
-                  <i class="bi bi-pencil-square"></i>
-                  <i class="bi bi-trash3" style="color: red"></i>
+                  <i
+                    class="bi bi-pencil-square"
+                    (click)="showAddressDetail(i_address)"
+                  ></i>
+                  <i
+                    class="bi bi-trash3"
+                    style="color: red"
+                    (click)="deleteAddress(address.id, i_address)"
+                  ></i>
                 </div>
               </li>
             </ng-container>
@@ -128,7 +140,7 @@
           </div>
           <div class="product-list-action">
             <h6 class="mb-2">
-              <b>{{ cartItem.productDetailCartDto!.price }} ₫</b>
+              <b>{{ cartItem.productDetailCartDto!.price | number }} ₫</b>
             </h6>
             <!-- 'product-badge status-' + product.inventoryStatus.toLowerCase() -->
             <span [class]="">{{ cartItem.amount }}</span>
@@ -139,7 +151,7 @@
       <div class="d-flex justify-content-between mt-4 mb-2">
         <h5><b>Tổng tiền</b></h5>
         <h5 class="color-danger">
-          <b>{{ cart.totalMoney }} ₫</b>
+          <b>{{ totalMoney | number }} ₫</b>
         </h5>
       </div>
       <p-divider></p-divider>
@@ -183,4 +195,13 @@
     </div>
   </div>
 </div>
-<p-toast></p-toast>
+<p-dialog
+  header="Địa chỉ chi tiết"
+  [(visible)]="isShowDetailAddress"
+  [style]="{ width: '50vw' }"
+>
+  <app-address
+    [address]="addressEdit"
+    (newAddress)="updateAddress($event)"
+  ></app-address>
+</p-dialog>

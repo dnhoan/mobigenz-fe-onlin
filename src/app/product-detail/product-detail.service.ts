@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
+import { CartItemDto } from '../DTOs/CartItemDto';
 
 @Injectable({
   providedIn: 'root',

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ContentComponent } from './content/content.component';
+import { OrdersComponent } from './orders/orders.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ChangePassComponent } from './login/forgot/changePass/changePass.component';
 import { ForgotComponent } from './login/forgot/forgot.component';
@@ -29,30 +30,34 @@ const routes: Routes = [
     component: CheckoutComponent,
   },
   {
+    path: 'orders',
+    component: OrdersComponent,
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'logout',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
-    path:'forgot',
-    component: ForgotComponent
+    path: 'forgot',
+    component: ForgotComponent,
   },
   {
-    path:'changePass',
-    component: ChangePassComponent
+    path: 'changePass',
+    component: ChangePassComponent,
   },
   {
-    path:'profile',
-    component: ProfileComponent
-  }
+    path: 'profile',
+    component: ProfileComponent,
+  },
 ];
 
 @NgModule({
