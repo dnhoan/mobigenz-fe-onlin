@@ -1,0 +1,174 @@
+<ng-container *ngIf="product">
+  <div class="row mt-5">
+    <div class="col-lg-7 showImages">
+      <p-galleria
+        [value]="product.images"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{
+          height: '600px'
+        }"
+        [numVisible]="5"
+        [circular]="true"
+        [showItemNavigators]="true"
+      >
+        <ng-template pTemplate="item" let-item>
+          <img
+            [src]="item"
+            style="
+              width: 100%;
+              display: block;
+              height: 100%;
+              object-fit: contain;
+            "
+          />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <div class="grid grid-nogutter justify-content-center">
+            <img [src]="item" width="60" style="display: block" />
+          </div>
+        </ng-template>
+      </p-galleria>
+    </div>
+
+    <div class="col-lg-5 text-md-left">
+      <h2
+        class="h2-responsive text-md-left product-name font-weight-bold dark-grey-text mb-1 ml-xl-0 ml-4"
+      >
+        {{ product.productName }}
+      </h2>
+      <!-- <span class="badge badge-danger product mb-4 ml-xl-0 ml-4"
+        >bestseller</span
+      >
+      <span class="badge badge-success product mb-4 ml-2">SALE</span> -->
+
+      <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
+        <span class="red-text font-weight-bold">
+          <!-- <strong>{{ currentProductDetail.priceSell }} ₫</strong> -->
+        </span>
+        <!-- <span class="grey-text">
+          <small>
+            <s>{{ product.productDetailDtos[0].price }} ₫</s>
+          </small>
+        </span> -->
+      </h3>
+
+      <p-divider></p-divider>
+      <div class="font-weight-normal">
+        <ng-container
+          *ngFor="let option of product.optionDtos; let i_option = index"
+        >
+          <h5>{{ option.optionName }}</h5>
+          <div class="mb-5">
+            <ng-container
+              *ngFor="
+                let optionValue of option.optionValueDtos;
+                let i_optionValue = index
+              "
+            >
+              <button
+                type="button"
+                [class]="
+                  optionValue.selected
+                    ? 'btn btn-lg m-1 btn-outline-primary'
+                    : 'btn  btn-lg m-1 btn-outline-secondary'
+                "
+                (click)="
+                  selectOptionValue(
+                    i_option,
+                    i_optionValue,
+                    optionValue.selected
+                  )
+                "
+              >
+                {{ optionValue.optionValueName }}
+              </button>
+              <!-- <button
+                type="button"
+                [class]="
+                  currentProductDetail!.productVariantCombinationDtos![i_option]
+                    .optionValueDto!.id == optionValue.id
+                    ? 'btn btn-lg m-1 btn-outline-primary'
+                    : 'btn  btn-lg m-1 btn-outline-secondary'
+                "
+                data-mdb-ripple-color="dark"
+                (click)="selectOptionValue(i_option, option.id, optionValue.id)"
+              >
+                {{ optionValue.optionValueName }}
+              </button> -->
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+      <div>
+        <p-button
+          label="Mua ngay"
+          icon="pi pi-check"
+          styleClass="p-button-lg mr-2"
+          (click)="addToCart(true)"
+        ></p-button>
+        <button
+          pButton
+          pRipple
+          (click)="addToCart()"
+          type="button"
+          label="Thêm giỏ hàng"
+          icon="pi pi-cart-plus"
+          class="p-button-lg p-button-outlined p-button-danger"
+        ></button>
+      </div>
+    </div>
+  </div>
+  <h2 class="mt-3 mb-3 text-center">Thông tin thêm</h2>
+  <div class="card rounded-5">
+    <p-tabView>
+      <p-tabPanel header="Chi tiết sản phẩm">
+        <span [innerHTML]="product.detail"></span>
+      </p-tabPanel>
+      <p-tabPanel header="Thông số kĩ thuật">
+        <div class="col-lg-8 col-md-10 col-sm-12 m-auto">
+          <p-table
+            [value]="product.specificationGroupDtos!"
+            responsiveLayout="scroll"
+          >
+            <ng-template pTemplate="body" let-specificationGroup>
+              <tr>
+                <td
+                  colspan="2"
+                  style="
+                    background-color: #3f51b5;
+                    color: white;
+                    text-align: center;
+                    border-radius: 10px;
+                  "
+                >
+                  <b>{{ specificationGroup.specificationGroupName }}</b>
+                </td>
+              </tr>
+              <ng-container
+                *ngFor="
+                  let specification of specificationGroup.specificationDtos
+                "
+              >
+                <tr>
+                  <td>
+                    <b>{{ specification.specificationName }}</b>
+                  </td>
+                  <td>
+                    {{
+                      specification.productSpecificationDtos
+                        .productSpecificationName
+                    }}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Mô tả">
+        <span [innerHTML]="product.description"></span>
+      </p-tabPanel>
+    </p-tabView>
+    <h2 class="mt-3 mb-3 text-center">Sản phẩm tương tự</h2>
+  </div>
+</ng-container>

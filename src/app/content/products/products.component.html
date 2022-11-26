@@ -1,0 +1,49 @@
+<!--Section: Content-->
+<section class="text-center">
+  <!--Grid row-->
+  <div class="row">
+    <!--Grid column-->
+    <ng-container *ngFor="let product of products">
+      <div class="col-lg-4 col-md-12 mb-4">
+        <a
+          [routerLink]="['/product', product.id]"
+          class="waves-effect waves-light"
+          ><img [src]="product.images[0]" class="img-fluid" alt=""
+        /></a>
+
+        <div class="card">
+          <div class="card-body">
+            <p class="mb-1">
+              <a
+                [routerLink]="['/product', product.id]"
+                class="font-weight-bold black-text"
+                >{{ product.productName }}</a
+              >
+            </p>
+
+            <p class="mb-1">
+              <small class="mr-1"><s>$599</s></small
+              ><strong>{{
+                product.productDetailDtos[0].priceSell | number
+              }}</strong>
+            </p>
+
+            <button type="button" class="btn btn-black btn-rounded btn-sm px-3">
+              Buy Now
+            </button>
+            <button
+              type="button"
+              [routerLink]="['/product', product.id]"
+              class="btn btn-outline-black btn-rounded btn-sm px-3 waves-effect"
+            >
+              Details
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--Grid column-->
+    </ng-container>
+  </div>
+  <!--Grid row-->
+</section>
+<!--Section: Content-->

@@ -1,0 +1,207 @@
+<h3 class="text-center m-3">Thanh toán</h3>
+<div class="row mt-5 mb-5">
+  <div class="col-lg-7 col-md-6 col-cm-12 p-4 rounded-5 bg-white">
+    <h4 class="mt-3 mb-3">Thông tin nhận hàng</h4>
+    <div class="row d-flex justify-content-between">
+      <div class="mb-3 col-lg-6 col-cm-12">
+        <label for="name" class="form-label">Họ và tên</label>
+        <input
+          style="width: 100%"
+          type="text"
+          id="name"
+          pInputText
+          [(ngModel)]="order.recipientName"
+        />
+      </div>
+      <div class="mb-3 col-lg-6 col-cm-12">
+        <label for="phoneNumber" class="form-label">Số điện thoại</label>
+        <input
+          style="width: 100%"
+          type="text"
+          id="phoneNumber"
+          pInputText
+          [(ngModel)]="order.recipientPhone"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          style="width: 100%"
+          type="email"
+          id="email"
+          pInputText
+          [(ngModel)]="order.recipientEmail"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="mb-3">
+        <label for="note" class="form-label">Ghi chú</label>
+        <textarea
+          rows="2"
+          style="width: 100%"
+          pInputTextarea
+          [(ngModel)]="order.note"
+        ></textarea>
+      </div>
+    </div>
+    <h4>Phương thức nhận hàng</h4>
+    <div class="d-flex justify-content-start mb-3 mt-3">
+      <div class="p-field-radiobutton d-flex align-items-center">
+        <p-radioButton
+          name="city"
+          value="1"
+          [(ngModel)]="isDelivery"
+          inputId="city2"
+        ></p-radioButton>
+        <label class="mb-0 ms-2" for="city2">Giao hàng tại nhà</label>
+      </div>
+      <div class="p-field-radiobutton d-flex align-items-center ms-4">
+        <p-radioButton
+          name="city"
+          value="0"
+          [(ngModel)]="isDelivery"
+          inputId="city1"
+        ></p-radioButton>
+        <label class="mb-0 ms-2" for="city1">Nhận tại cửa hàng</label>
+      </div>
+    </div>
+    <ng-container *ngIf="isDelivery == '1'">
+      <h5>
+        Địa chỉ nhận hàng
+        <i class="bi bi-plus-square-dotted" (click)="showAddressDetail(-1)"></i>
+      </h5>
+
+      <div>
+        <div class="p-field-radiobutton" *ngIf="addresses.length">
+          <ul class="list-group list-group-flush p-3">
+            <ng-container
+              *ngFor="let address of addresses; let i_address = index"
+            >
+              <li
+                class="list-group-item row d-flex justify-content-between p-0 mb-2 w-100"
+              >
+                <div class="col-9 d-flex align-items-center p-0">
+                  <p-radioButton
+                    name="address"
+                    [value]="address.id"
+                    [ngModel]="addressSelected.id"
+                    (ngModelChange)="onChangeAddressSelected(address.id)"
+                    inputId="{{ address.id }}"
+                  ></p-radioButton>
+                  <label class="mb-0 ms-2" for="{{ address.id }}">{{
+                    address.detailAddress +
+                      ", " +
+                      address.ward +
+                      ", " +
+                      address.district +
+                      ", " +
+                      address.city
+                  }}</label>
+                </div>
+                <div class="col-3 d-flex justify-content-around p-0">
+                  <i
+                    class="bi bi-pencil-square"
+                    (click)="showAddressDetail(i_address)"
+                  ></i>
+                  <i
+                    class="bi bi-trash3"
+                    style="color: red"
+                    (click)="deleteAddress(address.id, i_address)"
+                  ></i>
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </div></div
+    ></ng-container>
+  </div>
+  <div class="col-lg-5 col-md-6 col-cm-12">
+    <div class="bg-white rounded-5 p-4">
+      <ng-container *ngFor="let cartItem of cart.cartItemDtos">
+        <div class="product-item">
+          <div class="image-container">
+            <img
+              [src]="cartItem.productDetailCartDto!.image"
+              [alt]="cartItem.productDetailCartDto!.productName"
+              class="product-image"
+            />
+          </div>
+          <div class="product-list-detail">
+            <h6 class="mb-2">
+              <b>{{ cartItem.productDetailCartDto!.productName }}</b>
+            </h6>
+            <i class="pi pi-tag product-category-icon"></i>
+            <span class="product-category">{{
+              cartItem.productDetailCartDto!.sku
+            }}</span>
+          </div>
+          <div class="product-list-action">
+            <h6 class="mb-2">
+              <b>{{ cartItem.productDetailCartDto!.price | number }} ₫</b>
+            </h6>
+            <!-- 'product-badge status-' + product.inventoryStatus.toLowerCase() -->
+            <span [class]="">{{ cartItem.amount }}</span>
+          </div>
+        </div>
+      </ng-container>
+      <p-divider></p-divider>
+      <div class="d-flex justify-content-between mt-4 mb-2">
+        <h5><b>Tổng tiền</b></h5>
+        <h5 class="color-danger">
+          <b>{{ totalMoney | number }} ₫</b>
+        </h5>
+      </div>
+      <p-divider></p-divider>
+      <!-- <h5>Phương thức thanh toán</h5>
+      <div class="money mb-3">
+        <p-radioButton
+          name="city"
+          value="money"
+          [(ngModel)]="city"
+          inputId="city1"
+        ></p-radioButton>
+        <label for="city1" class="mb-0 ps-2">Tiền mặt</label>
+      </div>
+      <div class="bank mb-3">
+        <p-radioButton
+          name="city"
+          value="bank"
+          [(ngModel)]="city"
+          inputId="city2"
+        ></p-radioButton>
+        <label for="city2" class="mb-0 ps-2">Chuyển khoản</label>
+      </div> -->
+      <div class="field-checkbox d-flex align-items-start mb-3">
+        <p-checkbox
+          [(ngModel)]="checked"
+          [binary]="true"
+          inputId="binary"
+        ></p-checkbox>
+        <label for="binary" class="ps-2">
+          Tôi đã đọc và đồng ý với điều khoản và điều kiện của website</label
+        >
+      </div>
+      <div class="d-flex justify-content-end">
+        <p-button
+          (onClick)="submit()"
+          label="Đặt hàng"
+          icon="pi pi-wallet"
+          styleClass="{'width': '100%'}"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  header="Địa chỉ chi tiết"
+  [(visible)]="isShowDetailAddress"
+  [style]="{ width: '50vw' }"
+>
+  <app-address
+    [address]="addressEdit"
+    (newAddress)="updateAddress($event)"
+  ></app-address>
+</p-dialog>
