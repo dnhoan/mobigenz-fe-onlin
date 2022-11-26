@@ -1,36 +1,37 @@
 import { Injectable } from '@angular/core';
 import { CustomerService } from './customer.service';
 import { SessionService } from './session.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subject } from 'rxjs';
 import { AccountService } from './account.service';
-import { Account } from 'src/app/login/account.model';
+import { Account, CustomerDTO } from 'src/app/login/account.model';
+import { customerStore } from 'src/app/customer.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InfoService {
-  public customer = new BehaviorSubject<any>(null);
-
+  customer$ = new Subject<CustomerDTO>();
+  currentCustomer!: CustomerDTO;
   constructor(
     private customerService: CustomerService,
     private accountService: AccountService
   ) {}
 
   setCustomer(cusUrl: any) {
-    this.customer.next(cusUrl);
+    this.customer$.next(cusUrl);
   }
 
-  getCustomer() {
+  async getCustomer() {
     let decode = this.accountService.getDecodedAccessToken();
     if (decode) {
-      this.customerService.getCustomerByEmail(decode.sub).subscribe(
-        (value) => {
-          this.customer.next(value.data.customers);
-        },
-        (Error) => {
-          this.customer.next(null);
-        }
+      let value = await lastValueFrom(
+        this.customerService.getCustomerByEmail(decode.sub)
       );
+      customerStore.update(() => ({
+        customer: value.data.customers,
+      }));
+      this.currentCustomer = value.data.customers;
+      this.customer$.next(value.data.customers);
     }
   }
 }

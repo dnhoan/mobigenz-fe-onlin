@@ -32,6 +32,8 @@ import { ForgotComponent } from './login/forgot/forgot.component';
 import { ForgotModule } from './login/forgot/forgot.module';
 import { ChangePassComponent } from './login/forgot/changePass/changePass.component';
 import { ProfileComponent } from './menu/profile/profile.component';
+import { AddressComponent } from './checkout/address/address.component';
+import { InfoService } from 'src/service/infoCustomer.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { ProfileComponent } from './menu/profile/profile.component';
     LoginComponent,
     ChangePassComponent,
     ProfileComponent,
+    AddressComponent,
   ],
   imports: [
     BrowserModule,

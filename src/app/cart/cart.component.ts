@@ -4,6 +4,10 @@ import { CartDto } from 'src/app/DTOs/CartDto';
 import { CartItemDto } from 'src/app/DTOs/CartItemDto';
 import { ProductDetailCartDto } from 'src/app/DTOs/ProductDetailCartDto';
 import { ConfirmationService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { InfoService } from 'src/service/infoCustomer.service';
+import { CustomerDTO } from '../login/account.model';
+import { customerStore } from '../customer.repository';
 
 @Component({
   selector: 'app-cart',
@@ -14,19 +18,29 @@ export class CartComponent implements OnInit {
   cart: CartDto = {};
   cart_id = 1;
   totalMoney = 0;
+  subCustomer!: Subscription;
+  customer!: CustomerDTO;
 
   constructor(
     private cartService: CartService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private infoService: InfoService
   ) {}
-
-  ngOnInit(): void {
-    this.cartService.getCart().subscribe((cart) => {
-      this.cart = cart;
-      this.calculateTotalMoney();
-      console.log(this.cart);
+  ngOnDestroy() {
+    this.subCustomer.unsubscribe();
+  }
+  ngOnInit() {
+    this.subCustomer = customerStore.subscribe((res) => {
+      if (res.customer) {
+        this.customer = res.customer;
+        this.cartService
+          .getCartByCustomerId(this.customer.id!)
+          .subscribe((cart) => {
+            this.cart = cart;
+            this.calculateTotalMoney();
+          });
+      }
     });
-    console.log(this.cart);
   }
 
   deleteCartItem(cart_item_id: any, i_cart_item: number) {

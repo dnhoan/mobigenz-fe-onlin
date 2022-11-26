@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { customerStore } from '../customer.repository';
 import { OrderDto } from '../DTOs/OrderDto';
+import { CustomerDTO } from '../login/account.model';
 import { OrderService } from './order.service';
 
 @Component({
@@ -20,10 +23,19 @@ export class OrdersComponent implements OnInit {
     private orderService: OrderService,
     private confirmationService: ConfirmationService
   ) {}
-
-  ngOnInit(): void {
-    this.orderService.getOrders(4).subscribe((res) => {
-      this.orders = res;
+  customer!: CustomerDTO;
+  subCustomer!: Subscription;
+  ngOnDestroy() {
+    this.subCustomer.unsubscribe();
+  }
+  ngOnInit() {
+    this.subCustomer = customerStore.subscribe((res) => {
+      if (res.customer) {
+        this.customer = res.customer;
+        this.orderService.getOrders(this.customer.id!).subscribe((res) => {
+          this.orders = res;
+        });
+      }
     });
   }
   searchOrder(event: any) {}

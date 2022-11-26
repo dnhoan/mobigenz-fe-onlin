@@ -25,6 +25,18 @@ export class CartService {
       })
     );
   }
+  getCartByCustomerId(customer_id: number) {
+    return this.httpClient
+      .get(`${environment.baseUrl}/user/cart/${customer_id}`)
+      .pipe(
+        map((res: any) => {
+          if (res.statusCode === 200) {
+            return res.data.cartDto;
+          }
+          return [];
+        })
+      );
+  }
   addToCart(cid: number, cartItemDto: CartItemDto) {
     return this.httpClient
       .post(`${environment.baseUrl}/user/cartItem/${cid}`, cartItemDto)

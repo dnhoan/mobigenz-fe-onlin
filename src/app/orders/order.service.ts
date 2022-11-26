@@ -25,9 +25,9 @@ export class OrderService {
               summary: 'Thành công',
               detail: 'Tạo đơn hàng thành công',
             });
-            return res.data.result;
+            return true;
           }
-          return [];
+          return false;
         }),
         catchError(this.handleError<any>('Lỗi tạo đơn hàng', []))
       );

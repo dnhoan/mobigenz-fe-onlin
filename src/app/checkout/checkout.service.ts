@@ -22,7 +22,7 @@ export class CheckoutService {
       .pipe(
         map((res: any) => {
           if (res.statusCode === 200) {
-            return res.data.customersAddresses;
+            return res.data.addresses;
           }
           return [];
         }),

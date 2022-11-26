@@ -9,17 +9,22 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class ProductsService {
   constructor(private httpClient: HttpClient) {}
-
-  getProducts() {
-    return this.httpClient.get(`${environment.baseUrl}/admin/products`).pipe(
-      map((res: any) => {
-        if (res.statusCode === 200) {
-          return res.data.products;
-        }
-        return [];
-      }),
-      catchError(this.handleError<any>('Error get product', []))
-    );
+  getProducts(searchTerm?: string): Observable<[]> {
+    return this.httpClient
+      .get(
+        `${environment.baseUrl}/admin/products/?searchTerm=${
+          searchTerm ? searchTerm : ''
+        }`
+      )
+      .pipe(
+        map((res: any) => {
+          if (res.statusCode === 200) {
+            return res.data.products;
+          }
+          return [];
+        }),
+        catchError(this.handleError<any>('Error get products', []))
+      );
   }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

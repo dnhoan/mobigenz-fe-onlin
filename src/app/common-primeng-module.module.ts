@@ -17,6 +17,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { OrderListModule } from 'primeng/orderlist';
 import { TagModule } from 'primeng/tag';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [],
   imports: [
@@ -38,6 +39,7 @@ import { TagModule } from 'primeng/tag';
     DialogModule,
     OrderListModule,
     TagModule,
+    DropdownModule,
   ],
   exports: [
     ButtonModule,
@@ -56,6 +58,7 @@ import { TagModule } from 'primeng/tag';
     DialogModule,
     OrderListModule,
     TagModule,
+    DropdownModule,
   ],
 })
 export class CommonPrimengModuleModule {}
