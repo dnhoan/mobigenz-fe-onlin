@@ -29,7 +29,7 @@ export class OrdersComponent implements OnInit {
     this.subCustomer.unsubscribe();
   }
   ngOnInit() {
-    this.subCustomer = customerStore.subscribe((res) => {
+    this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer;
         this.orderService.getOrders(this.customer.id!).subscribe((res) => {
