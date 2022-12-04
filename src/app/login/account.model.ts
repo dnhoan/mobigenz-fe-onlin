@@ -33,7 +33,7 @@ export interface Permission{
 export interface Customer{
   id?: number;
   customerName?: string;
-  phoneNumber?: Date;
+  phoneNumber?: string;
   birthday?: Date;
   image?: string;
   email?: string;
@@ -46,7 +46,7 @@ export interface Customer{
 export interface CustomerDTO{
   id?: number;
   customerName?: string;
-  phoneNumber?: Date;
+  phoneNumber?: string;
   birthday?: Date;
   image?: string;
   email?: string;

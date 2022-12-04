@@ -11,6 +11,9 @@ import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { InfoService } from 'src/service/infoCustomer.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal, ModalDismissReasons  } from '@ng-bootstrap/ng-bootstrap';
+import { customerStore } from '../customer.repository';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +25,7 @@ export class LoginComponent implements OnInit {
   formLogin!: FormGroup;
   formRegister!: FormGroup;
   isSubmitted = false;
+  closeResult = '';
   // account: Account ={};
   roles: string[] = [];
   account: Account = {};
@@ -29,12 +33,15 @@ export class LoginComponent implements OnInit {
   urlCustomer = 'http://localhost:9090/api/getCustomerByAccountId=accountId?';
   email!: String;
   customer: Customer = {};
+  submit = false;
+  subCustomer!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private tokenService: TokenService,
     private router: Router,
+    private modalService: NgbModal,
     private sessionService: SessionService,
     private accountService: AccountService,
     private customerService: CustomerService,
@@ -51,49 +58,50 @@ export class LoginComponent implements OnInit {
     this.initForm();
   }
 
-  addSingle() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Service Message',
-      detail: 'Via MessageService',
-    });
-  }
+  open(content: any) {
+    this.submit = false;
+    this.initForm()
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+			(result) => {
+				this.closeResult = `Closed with: ${result}`;
+			},
+			(reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			},
+		);
+	}
 
-  addMultiple() {
-    this.messageService.addAll([
-      {
-        severity: 'success',
-        summary: 'Service Message',
-        detail: 'Via MessageService',
-      },
-      {
-        severity: 'info',
-        summary: 'Info Message',
-        detail: 'Via MessageService',
-      },
-    ]);
-  }
-
-  clear() {
-    this.messageService.clear();
-  }
+  private getDismissReason(error: any): string {
+		if (error === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (error === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return `with: ${error}`;
+		}
+	}
 
   initForm() {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      rememberme: [false, [Validators.required]],
+      rememberme: [true, []],
     });
     this.formRegister = this.fb.group({
-      email: ['', [Validators.required, Validators.maxLength(50)]],
-      password: ['', [Validators.required]],
-      phoneNumber: [''],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(?=[^A-Z\\n]*[A-Z])(?=[^a-z\\n]*[a-z])(?=[^0-9\\n]*[0-9])(?=[^#?!@$%^&*\\n-]*[#?!@$%^&*-]).{8,}$'
+          ),
+        ],
+      ],
+      repassword: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})')]],
     });
   }
-
-  // saveAccount() {
-
-  // }
 
   onSubmit() {
     this.isSubmitted = true;
@@ -103,17 +111,12 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn = true;
           this.tokenService.saveToken(data.token);
           const jwtDecode = this.accountService.getDecodedAccessToken();
+          console.log(jwtDecode);
+
           this.tokenService.saveAccount(jwtDecode.sub);
           const role = jwtDecode.auth.split(',');
-          // const email = this.sessionService.getItemCus('auth-user');
           this.infoService.getCustomer();
           console.log(this.infoService.getCustomer());
-
-          // this.customerService
-          //   .getCustomerByEmail(jwtDecode.sub)
-          //   .subscribe((res) => {
-          // //     localStorage.setItem('id-account', res.data.account.id);
-          //   });
           if (localStorage.getItem('auth-token')) {
             this.toastr.success('Đăng nhập thành công!');
             this.router.navigate(['/home']);
@@ -129,8 +132,38 @@ export class LoginComponent implements OnInit {
   }
 
   registerAccount() {
-    this.addValueAccount();
-    this.accountService.register(this.account).subscribe((res) => {});
+    if (!this.formRegister.valid) {
+      this.submit = true;
+      return;
+    }
+    if (
+      this.formRegister.value.password != this.formRegister.value.repassword
+    ) {
+      this.toastr.error('Mật khẩu xác nhận phải trùng khớp!');
+      return;
+    } else {
+      this.addValueAccount();
+      this.accountService.register(this.account).subscribe(
+        (res) => {
+          this.toastr.success('Đăng ký tài khoản thành công!');
+          this.modalService.dismissAll();
+        },
+        (error) => {
+          if (error.error.message === 'Email đã tồn tại!') {
+            this.toastr.error(error.error.message);
+            return;
+          }
+          if (error.error.message === 'Số điện thoại đã tồn tại!') {
+            this.toastr.error(error.error.message);
+            return;
+          }
+          if (error.error.message === 'Đăng ký thất bại!') {
+            this.toastr.error(error.error.message);
+            return;
+          }
+        }
+      );
+    }
   }
 
   forgotPassword() {
@@ -141,25 +174,5 @@ export class LoginComponent implements OnInit {
     this.account.email = this.formRegister.value.email;
     this.account.password = this.formRegister.value.password;
     this.account.phoneNumber = this.formRegister.value.phoneNumber;
-    // this.account.roleid = { id: this.formRegister.value.role };
-    // if (this.formRegister.value.status == 1) {
-    //   this.account.status = 1;
-    // } else {
-    //   this.account.status = 0;
-    // }
   }
-
-  // getByUserName(){
-  //   const accountId = this.sessionService.getItem('id-account');
-  //    this.customerService.getCustomerByAccountId(accountId).subscribe(
-  //     (res)=>{
-  //      console.log(res.data.customers);
-  //      window.localStorage.setItem("customer_id",res.data.customers.id ),
-  //      window.localStorage.setItem("customer_name",res.data.customers.customerName ),
-  //      window.localStorage.setItem("customer_email",res.data.customers.email ),
-  //      window.localStorage.setItem("customer_phone",res.data.customers.phoneNumber )
-  //     }
-
-  //   )
-  // }
 }

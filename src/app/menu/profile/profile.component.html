@@ -18,7 +18,7 @@
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Ngày sinh</label>
-        <input formControlName="birthday"  type="date" id="form6Example1" class="form-control" />
+        <input formControlName="birthday"  type="date" id="form6Example1" pattern="yyyy/MM/dd" class="form-control" />
       </div>
     </div>
     <div class="col">
@@ -33,7 +33,7 @@
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Email</label>
-        <input formControlName="email" type="text" id="form6Example1" class="form-control" />
+        <input formControlName="email" readonly type="text" id="form6Example1" class="form-control" />
       </div>
     </div>
     <div class="col">
@@ -41,7 +41,7 @@
         <label class="form-label" for="form6Example2">Giới tính</label>
        <select formControlName="gender" id="gender" class="form-control">
         <option value="1">Nam</option>
-        <option value="2">Nữ</option>
+        <option value="0">Nữ</option>
        </select>
       </div>
     </div>
