@@ -8,10 +8,6 @@
       id="form2Example1"
       class="form-control pt-2"
     />
-    <small class="col alert text-danger col-12" role="alert"
-             *ngIf="formLogin.get('email')?.errors?.['required'] && formLogin.get('email')?.touched">
-        Email không được để trống !
-      </small>
   </div>
 
   <!-- Password input -->
@@ -23,34 +19,13 @@
       id="form2Example1"
       class="form-control pt-2"
     />
-    <small class="col alert text-danger col-12" role="alert"
-        *ngIf="formLogin.get('password')?.errors?.['required'] && formLogin.get('password')?.touched">
-        Mật khẩu không được để trống !
-      </small>
   </div>
 
   <!-- 2 column grid layout for inline styling -->
   <div class="row mb-4">
-    <div class="col d-flex justify-content-center">
-      <!-- Checkbox -->
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          formControlName="rememberme"
-          id="form2Example34"
-          checked
-        />
-
-        <label class="form-check-label" for="form2Example34">
-          Nhớ mật khẩu?
-        </label>
-      </div>
-    </div>
-
     <div class="col">
       <!-- Simple link -->
-      <a (click)="forgotPassword()">Quên mật khẩu?</a>
+      <a class="justify-content-center" (click)="forgotPassword()">Quên mật khẩu?</a>
     </div>
   </div>
 
@@ -65,13 +40,119 @@
   <div class="text-center">
     <p>
       Bạn chưa có tài khoản?
-      <a data-mdb-toggle="modal" data-mdb-target="#exampleModal">Đăng ký ngay!</a>
+      <a (click)="open(content)">Đăng ký ngay!</a>
     </p>
   </div>
 </form>
 
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Đăng ký tài khoản</h4>
+		<button type="button" class="btn-close ml-4" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form class="formRegister" [formGroup]="formRegister">
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+      <!-- Email input -->
+      <div>
+        <label class="form-label" for="form2Example2">Email</label>
+        <input
+          type="text"
+          formControlName="email"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+        <small
+      class="col alert text-danger col-12"
+      role="alert"
+      *ngIf="formRegister.get('email')?.errors?.['required'] && formRegister.get('email')?.touched || submit && formRegister.get('email')?.errors?.['required'] "
+    >
+      Email không được để trống !
+    </small>
+    <small
+    class="col alert text-danger col-12"
+    role="alert"
+    *ngIf="!formRegister.get('email')?.errors?.['required'] && formRegister.get('email')?.errors?.['email']"
+  >
+    Email phải đúng định dạng !
+  </small>
+      </div>
+
+      <!-- Password input -->
+      <div>
+        <label class="form-label" for="form2Example2">Mật khẩu</label>
+        <input
+          type="password"
+          formControlName="password"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+        <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="formRegister.get('password')?.errors?.['required'] && formRegister.get('password')?.touched || submit && formRegister.get('password')?.errors?.['required'] "
+        >
+          Mật khẩu không được để trống !
+        </small>
+        <small
+        class="col alert text-danger col-12"
+        role="alert"
+        *ngIf="!formRegister.get('password')?.errors?.['required'] && formRegister.get('password')?.errors?.['pattern']"
+      >
+      Mật khẩu phải có 8 ký tự trở lên, bao gồm cả chữ, cả số và cả kí tự đặc biệt !
+      </small>
+      </div>
+
+
+      <div>
+        <label class="form-label" for="form2Example2">Xác nhận mật khẩu</label>
+        <input
+          type="password"
+          formControlName="repassword"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+        <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="formRegister.get('repassword')?.errors?.['required'] && formRegister.get('repassword')?.touched || submit && formRegister.get('repassword')?.errors?.['required'] "
+        >
+          Mật khẩu không được để trống !
+        </small>
+      </div>
+
+      <div>
+        <label class="form-label" for="form2Example2">Số ĐT</label>
+        <input
+          type="text"
+          formControlName="phoneNumber"
+          id="form2Example1"
+          class="form-control pt-2"
+        />
+        <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="formRegister.get('phoneNumber')?.errors?.['required'] && formRegister.get('phoneNumber')?.touched || submit && formRegister.get('phoneNumber')?.errors?.['required'] "
+        >
+          Số điện thoại không được để trống!
+        </small>
+        <small class="col alert text-danger" role="alert"
+        *ngIf="!formRegister.get('phoneNumber')?.errors?.['required'] && formRegister.get('phoneNumber')?.errors?.['pattern']">
+          Số điện thoại phải là số và tối đa 10 kí tự!
+        </small>
+      </div>
+    </form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="registerAccount()">Đăng ký</button>
+	</div>
+</ng-template>
+
+
+
   <!-- Modal -->
-  <div
+  <!-- <div
     class="modal fade"
     id="exampleModal"
     tabindex="-1"
@@ -84,15 +165,14 @@
           <h5 class="modal-title" id="register">Đăng ký tài khoản</h5>
           <button
             type="button"
-            class="btn-close"
+            class="btn-close ml-5"
             data-mdb-dismiss="modal"
             aria-label="Close"
           ></button>
         </div>
         <div class="modal-body">
           <form class="formRegister" [formGroup]="formRegister">
-            <!-- 2 column grid layout with text inputs for the first and last names -->
-            <!-- Email input -->
+
             <div class="mb-4">
               <label class="form-label" for="form2Example2">Email</label>
               <input
@@ -101,9 +181,22 @@
                 id="form2Example1"
                 class="form-control pt-2"
               />
+              <small
+            class="col alert text-danger col-12"
+            role="alert"
+            *ngIf="formRegister.get('email')?.errors?.['required'] && formRegister.get('email')?.touched || submit && formRegister.get('email')?.errors?.['required'] "
+          >
+            Email không được để trống !
+          </small>
+          <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="!formRegister.get('email')?.errors?.['required'] && formRegister.get('email')?.errors?.['email']"
+        >
+          Email phải đúng định dạng !
+        </small>
             </div>
 
-            <!-- Password input -->
             <div class="mb-4">
               <label class="form-label" for="form2Example2">Mật khẩu</label>
               <input
@@ -112,6 +205,38 @@
                 id="form2Example1"
                 class="form-control pt-2"
               />
+              <small
+                class="col alert text-danger col-12"
+                role="alert"
+                *ngIf="formRegister.get('password')?.errors?.['required'] && formRegister.get('password')?.touched || submit && formRegister.get('password')?.errors?.['required'] "
+              >
+                Mật khẩu không được để trống !
+              </small>
+              <small
+              class="col alert text-danger col-12"
+              role="alert"
+              *ngIf="!formRegister.get('password')?.errors?.['required'] && formRegister.get('password')?.errors?.['pattern']"
+            >
+            Mật khẩu phải có 8 ký tự trở lên, bao gồm cả chữ, cả số và cả kí tự đặc biệt !
+            </small>
+            </div>
+
+
+            <div class="mb-4">
+              <label class="form-label" for="form2Example2">Xác nhận mật khẩu</label>
+              <input
+                type="password"
+                formControlName="repassword"
+                id="form2Example1"
+                class="form-control pt-2"
+              />
+              <small
+                class="col alert text-danger col-12"
+                role="alert"
+                *ngIf="formRegister.get('repassword')?.errors?.['required'] && formRegister.get('repassword')?.touched || submit && formRegister.get('repassword')?.errors?.['required'] "
+              >
+                Mật khẩu không được để trống !
+              </small>
             </div>
 
             <div class="mb-4">
@@ -122,20 +247,25 @@
                 id="form2Example1"
                 class="form-control pt-2"
               />
+              <small
+                class="col alert text-danger col-12"
+                role="alert"
+                *ngIf="formRegister.get('phoneNumber')?.errors?.['required'] && formRegister.get('phoneNumber')?.touched || submit && formRegister.get('phoneNumber')?.errors?.['required'] "
+              >
+                Số điện thoại không được để trống!
+              </small>
+              <small class="col alert text-danger" role="alert"
+              *ngIf="!formRegister.get('phoneNumber')?.errors?.['required'] && formRegister.get('phoneNumber')?.errors?.['pattern']">
+                Số điện thoại phải là số và tối đa 10 kí tự!
+              </small>
             </div>
-
-            <!-- Checkbox -->
-
-
-
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary btn-block mb-4" (click)="registerAccount()">
+            <button type="button" class="btn btn-primary btn-block mb-4" (click)="registerAccount()">
               Tạo tài khoản
             </button>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Register buttons -->

@@ -15,7 +15,11 @@ export class ForgotService {
     return this.http.get<any>(this.forgotAPI + 'forgot?email=' + email);
   }
 
-  getOTP(email: any): Observable<any> {
+  getOTP(email: any) {
     return this.http.get<any>(this.forgotAPI + 'getOTP?email=' + email);
+  }
+
+  changepass(email: any, otp: string, password: string, repassword: string): Observable<any> {
+    return this.http.get<any>(this.forgotAPI + 'changepass?email=' + email + "&isOtp=" + otp + "&password=" + password + "&repassword=" + repassword);
   }
 }

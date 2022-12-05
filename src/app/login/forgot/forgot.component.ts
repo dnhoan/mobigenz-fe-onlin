@@ -36,13 +36,14 @@ export class ForgotComponent implements OnInit {
   public sendOTP(){
     this.forgotService.sendOtp(this.formForgot.value.email).subscribe(
       (res)=> {
+        console.log(res);
+
         this.router.navigate(['/changePass']);
         this.toastr.success("OTP đã gửi đến email của bạn!")
-        localStorage.setItem('id',res.object.id);
+        localStorage.setItem('email',res.object);
       },
       (error) => {
-        console.log(error)
-        this.toastr.error("Email không tồn tại trong hệ thống, vui lòng kiểm tra lại!");
+        this.toastr.error(error.error.message);
       }
     );
   }

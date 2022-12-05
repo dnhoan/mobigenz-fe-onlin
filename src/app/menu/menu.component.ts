@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
 import { Dialog } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 import { BehaviorSubject, lastValueFrom, Subscription } from 'rxjs';
 import { InfoService } from 'src/service/infoCustomer.service';
 import { SessionService } from 'src/service/session.service';
@@ -53,16 +56,20 @@ export class MenuComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private tokenService: TokenService,
-    private infoService: InfoService
+    private infoService: InfoService,
+    private toastr: ToastrService,
+    private router: Router
   ) {}
   subCustomer!: Subscription;
   ngOnDestroy() {
     this.subCustomer.unsubscribe();
   }
   ngOnInit() {
-    this.subCustomer = customerStore.subscribe((res) => {
+    this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer;
+        console.log(this.customer?.customerName);
+
         this.items = this.deavtive();
       }
     });

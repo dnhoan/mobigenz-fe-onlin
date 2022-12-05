@@ -3,6 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { customerStore } from 'src/app/customer.repository';
 import { Customer, CustomerDTO } from 'src/app/login/account.model';
 import { CustomerService } from 'src/service/customer.service';
 import { InfoService } from 'src/service/infoCustomer.service';
@@ -15,6 +17,7 @@ import { InfoService } from 'src/service/infoCustomer.service';
 export class ProfileComponent implements OnInit {
   formProfile!: FormGroup;
   customer: CustomerDTO = {};
+  subCustomer!: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -24,11 +27,19 @@ export class ProfileComponent implements OnInit {
     private infoService: InfoService
   ) {}
 
+  ngOnDestroy() {
+    this.subCustomer.unsubscribe();
+  }
+
   ngOnInit() {
     this.initForm();
-    this.infoService.customer$.subscribe((value) => {
-      this.customer = value;
-      if (this.customer) this.fillValueForm();
+    this.subCustomer = customerStore.subscribe((res: any) => {
+      if (res.customer) {
+        this.customer = res.customer as CustomerDTO;
+        console.log(this.customer);
+
+        this.fillValueForm();
+      }
     });
   }
 
@@ -51,11 +62,15 @@ export class ProfileComponent implements OnInit {
   }
 
   fillValueForm() {
+    let bd;
+    if (this.customer.birthday) bd = this.formatDate(this.customer.birthday);
+    else bd = null;
+    console.log(bd);
     this.formProfile.patchValue({
       id: this.customer.id,
       customerName: this.customer.customerName,
       phoneNumber: this.customer.phoneNumber,
-      birthday: this.customer.birthday,
+      birthday: bd,
       gender: this.customer.gender,
       email: this.customer.email,
       customerType: this.customer.customerType,
@@ -68,7 +83,6 @@ export class ProfileComponent implements OnInit {
   update() {
     this.addValueCustomer();
     console.log(this.addValueCustomer());
-    console.log(this.customer);
     this.customerService.updateCustomer(this.customer).subscribe((res) => {
       this.toastr.success('Cập nhật thông tin thành công!');
       this.router.navigate(['/home']).then((r) => console.log(r));
@@ -86,5 +100,17 @@ export class ProfileComponent implements OnInit {
     this.customer.citizenIdentifyCart =
       this.formProfile.value.citizenIdentifyCart;
     this.customer.status = this.formProfile.value.status;
+  }
+
+  formatDate(date: Date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }

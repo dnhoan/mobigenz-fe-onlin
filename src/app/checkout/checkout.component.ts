@@ -56,7 +56,7 @@ export class CheckoutComponent implements OnInit {
     this.subCustomer.unsubscribe();
   }
   ngOnInit() {
-    this.subCustomer = customerStore.subscribe((res) => {
+    this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer as CustomerDTO;
         this.cartService
