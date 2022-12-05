@@ -17,6 +17,11 @@ export class CustomerService {
     ) {
   }
 
+
+  getCustomers(): Observable<any> {
+    return this.http.get<any>("http://localhost:8080/user/customers/getAllCus");
+  }
+
   getAll(offset: any, limit: any): Observable<any> {
     return this.http.get<any>(this.apiCustomer + "admin/customers?offset=" + offset + "&limit=" + limit
     );
@@ -49,7 +54,12 @@ export class CustomerService {
   }
 
 
-  userGetCustomerByEmail(email: any): Observable<any> {
+  public updateCustomerOnline(customer: Customer): Observable<any> {
+    return this.http.put<any>("http://localhost:8080/user/customers",customer);
+  }
+
+
+  public userGetCustomerByEmail(email: any): Observable<any> {
     return this.http.get<any>("http://localhost:8080/user/customers/email?email=" + email);
   }
 

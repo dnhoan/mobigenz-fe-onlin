@@ -18,22 +18,24 @@
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Ngày sinh</label>
-        <input formControlName="birthday"  type="date" id="form6Example1" pattern="yyyy/MM/dd" class="form-control" />
+        <input formControlName="birthday"  type="date" id="form6Example1"  class="form-control" />
       </div>
     </div>
     <div class="col">
       <div>
-        <label class="form-label" for="form6Example2">Image</label>
-        <input formControlName="image" type="file" id="form6Example2" class="form-control" />
-        <!-- <a type="image" formControlName="image"></a> -->
+        <label class="form-label" for="form6Example1">Email</label>
+        <input formControlName="email" readonly type="text" id="form6Example1" class="form-control" />
       </div>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col">
       <div>
-        <label class="form-label" for="form6Example1">Email</label>
-        <input formControlName="email" readonly type="text" id="form6Example1" class="form-control" />
+        <label class="form-label" for="form6Example2">Trạng thái</label>
+        <select formControlName="status" id="status" class="form-control">
+          <option value="1">Active</option>
+          <option value="0">InActive</option>
+         </select>
       </div>
     </div>
     <div class="col">
@@ -60,17 +62,6 @@
       <div>
         <label class="form-label" for="form6Example2">CCCD</label>
         <input formControlName="citizenIdentifyCart" type="text" id="form6Example2" class="form-control" />
-      </div>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col">
-      <div>
-        <label class="form-label" for="form6Example2">Trạng thái</label>
-        <select formControlName="status" id="status" class="form-control">
-          <option value="1">Active</option>
-          <option value="0">InActive</option>
-         </select>
       </div>
     </div>
   </div>
