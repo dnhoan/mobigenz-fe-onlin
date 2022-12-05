@@ -12,11 +12,14 @@
   ><div class="bg-white rounded-5 p-4 mt-4">
     <div class="d-flex justify-content-between">
       <p><b>Mã đơn hàng: </b>{{ order.id }}</p>
-      <p-tag
-        styleClass="mr-2"
-        severity="secondary"
-        value="Chưa xác nhận"
-      ></p-tag>
+      <ng-container *ngFor="let status of commonService.orderStatuses">
+        <p-tag
+          *ngIf="status.status == order.orderStatus"
+          styleClass="mr-2"
+          [severity]="status.color"
+          [value]="status.statusName"
+        ></p-tag
+      ></ng-container>
     </div>
     <ng-container *ngFor="let orderDetail of order.orderDetailDtos">
       <div class="product-item d-flex justify-content-between mb-3">

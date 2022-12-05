@@ -25,11 +25,10 @@ export class OrderService {
               summary: 'Thành công',
               detail: 'Tạo đơn hàng thành công',
             });
-            return true;
+            return res.data.result;
           }
-          return false;
         }),
-        catchError(this.handleError<any>('Lỗi tạo đơn hàng', []))
+        catchError(this.handleError<any>('Lỗi tạo đơn hàng', false))
       );
   }
   cancelOrder(order_id: number, note: string) {
@@ -58,9 +57,8 @@ export class OrderService {
           if (res.statusCode === 200) {
             return res.data.orders;
           }
-          return [];
         }),
-        catchError(this.handleError<any>('Lỗi gọi danh sách đơn hàng', []))
+        catchError(this.handleError<any>('Lỗi gọi danh sách đơn hàng', false))
       );
   }
   private handleError<T>(operation = 'operation', result?: T) {

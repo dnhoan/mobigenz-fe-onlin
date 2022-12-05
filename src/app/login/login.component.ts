@@ -130,7 +130,12 @@ export class LoginComponent implements OnInit {
 
   registerAccount() {
     this.addValueAccount();
-    this.accountService.register(this.account).subscribe((res) => {});
+    this.accountService.register(this.account).subscribe((res) => {
+      if (res.status) {
+        this.toastr.success('Đăng ký thành công');
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   forgotPassword() {

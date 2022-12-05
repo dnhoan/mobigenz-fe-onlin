@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { CommonService } from 'src/service/common.service';
 import { customerStore } from '../customer.repository';
 import { OrderDto } from '../DTOs/OrderDto';
 import { CustomerDTO } from '../login/account.model';
@@ -21,7 +22,8 @@ export class OrdersComponent implements OnInit {
   constructor(
     private message: MessageService,
     private orderService: OrderService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public commonService: CommonService
   ) {}
   customer!: CustomerDTO;
   subCustomer!: Subscription;

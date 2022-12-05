@@ -23,4 +23,5 @@ export interface OrderDto {
   cancelNote?: string;
   ctime?: string;
   mtime?: string;
+  delivery?: number;
 }
