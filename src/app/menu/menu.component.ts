@@ -161,8 +161,9 @@ export class MenuComponent implements OnInit {
     window.localStorage.removeItem('auth-token');
     window.localStorage.removeItem('auth-user');
     window.localStorage.removeItem('id-account');
-    window.location.reload();
-    this.router.navigate(['/home']);
-    this.toastr.success("Đăng xuất thành công!")
+    customerStore.reset();
+    this.infoService.setCustomer(null);
+    this.customer = null;
+    this.items = this.active();
   }
 }

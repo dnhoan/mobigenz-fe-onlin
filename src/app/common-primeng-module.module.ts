@@ -18,6 +18,8 @@ import { DialogModule } from 'primeng/dialog';
 import { OrderListModule } from 'primeng/orderlist';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
+import { DataViewModule } from 'primeng/dataview';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
   declarations: [],
   imports: [
@@ -40,6 +42,8 @@ import { DropdownModule } from 'primeng/dropdown';
     OrderListModule,
     TagModule,
     DropdownModule,
+    DataViewModule,
+    PaginatorModule,
   ],
   exports: [
     ButtonModule,
@@ -59,6 +63,8 @@ import { DropdownModule } from 'primeng/dropdown';
     OrderListModule,
     TagModule,
     DropdownModule,
+    DataViewModule,
+    PaginatorModule,
   ],
 })
 export class CommonPrimengModuleModule {}

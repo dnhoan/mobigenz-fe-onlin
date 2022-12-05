@@ -11,7 +11,7 @@ import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { InfoService } from 'src/service/infoCustomer.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, ModalDismissReasons  } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { customerStore } from '../customer.repository';
 import { Subscription } from 'rxjs';
 
@@ -60,26 +60,28 @@ export class LoginComponent implements OnInit {
 
   open(content: any) {
     this.submit = false;
-    this.initForm()
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-			(result) => {
-				this.closeResult = `Closed with: ${result}`;
-			},
-			(reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-			},
-		);
-	}
+    this.initForm();
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
 
   private getDismissReason(error: any): string {
-		if (error === ModalDismissReasons.ESC) {
-			return 'by pressing ESC';
-		} else if (error === ModalDismissReasons.BACKDROP_CLICK) {
-			return 'by clicking on a backdrop';
-		} else {
-			return `with: ${error}`;
-		}
-	}
+    if (error === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (error === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${error}`;
+    }
+  }
 
   initForm() {
     this.formLogin = this.fb.group({
@@ -99,7 +101,13 @@ export class LoginComponent implements OnInit {
         ],
       ],
       repassword: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})')]],
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})'),
+        ],
+      ],
     });
   }
 

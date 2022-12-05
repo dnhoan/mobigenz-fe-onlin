@@ -1,14 +1,51 @@
-<!--Section: Content-->
-<section class="text-center">
-  <!--Grid row-->
+<div class="card">
+  <div class="d-flex justify-content-between">
+    <div>
+      <p-dropdown
+        [options]="sortOptions"
+        [(ngModel)]="sortPriceIncrease"
+        placeholder="Sắp xếp giá"
+        (onChange)="onSortChange($event)"
+        styleClass="mb-2 md:mb-0"
+      ></p-dropdown>
+    </div>
+    <div>
+      <p-dropdown
+        [showClear]="manufacturerSelected ? true : false"
+        [options]="manufacturers"
+        optionLabel="manufacturerName"
+        optionValue="id"
+        [(ngModel)]="manufacturerSelected"
+        placeholder="Hãng sản xuất"
+        (onClear)="clearFilterManufacturer($event)"
+        (onChange)="onChangeManufacturer($event)"
+        styleClass="mb-2 md:mb-0"
+      ></p-dropdown>
+    </div>
+    <div>
+      <span class="p-input-icon-left mb-2 md:mb-0">
+        <i class="pi pi-search"></i>
+        <input
+          type="search"
+          pInputText
+          placeholder="Tìm kiếm sản phẩm"
+          (ngModelChange)="search($event)"
+          [(ngModel)]="searchTerm"
+        />
+      </span>
+    </div>
+  </div>
   <div class="row">
-    <!--Grid column-->
     <ng-container *ngFor="let product of products">
-      <div class="col-lg-4 col-md-12 mb-4">
+      <div class="col-lg-4 col-sm-12 me-0">
         <a
           [routerLink]="['/product', product.id]"
           class="waves-effect waves-light"
-          ><img [src]="product.images[0]" class="img-fluid" alt=""
+          ><img
+            style="width: 500px"
+            [src]="product.images[0]"
+            class="img-fluid"
+            alt=""
         /></a>
 
         <div class="card">
@@ -22,28 +59,24 @@
             </p>
 
             <p class="mb-1">
-              <small class="mr-1"><s>$599</s></small
-              ><strong>{{
-                product.productDetailDtos[0].priceSell | number
-              }}</strong>
+              <strong *ngIf="product.minPrice == product.maxPrice"
+                >{{ product.minPrice | number }}đ</strong
+              >
+              <strong *ngIf="product.minPrice != product.maxPrice"
+                >{{ product.minPrice | number }}đ -
+                {{ product.maxPrice | number }}đ</strong
+              >
             </p>
-
-            <button type="button" class="btn btn-black btn-rounded btn-sm px-3">
-              Buy Now
-            </button>
-            <button
-              type="button"
-              [routerLink]="['/product', product.id]"
-              class="btn btn-outline-black btn-rounded btn-sm px-3 waves-effect"
-            >
-              Details
-            </button>
           </div>
         </div>
       </div>
-      <!--Grid column-->
     </ng-container>
   </div>
-  <!--Grid row-->
-</section>
-<!--Section: Content-->
+  <div row>
+    <p-paginator
+      [rows]="10"
+      [totalRecords]="20"
+      [rowsPerPageOptions]="[10, 20, 30]"
+    ></p-paginator>
+  </div>
+</div>
