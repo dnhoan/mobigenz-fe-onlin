@@ -34,7 +34,6 @@ import { ChangePassComponent } from './login/forgot/changePass/changePass.compon
 import { ProfileComponent } from './menu/profile/profile.component';
 import { AddressComponent } from './checkout/address/address.component';
 import { InfoService } from 'src/service/infoCustomer.service';
-
 @NgModule({
   declarations: [
     AppComponent,

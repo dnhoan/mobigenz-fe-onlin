@@ -22,7 +22,7 @@ import { CheckoutService } from './checkout.service';
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
-  isDelivery: string = '1';
+  isDelivery: number = 0;
   addresses: CustomersAddress[] = [];
   addressSelected!: CustomersAddress;
   checked = false;
@@ -32,6 +32,7 @@ export class CheckoutComponent implements OnInit {
   customer!: CustomerDTO;
   isShowDetailAddress = false;
   i_address: number = -1;
+  isCreateOrderSuccess = false;
   addressEdit: CustomersAddress = {
     city: '',
     detailAddress: '',
@@ -79,6 +80,8 @@ export class CheckoutComponent implements OnInit {
     });
   }
   updateAddress(event: any) {
+    console.log('save address');
+
     this.addressService
       .saveAddressByCustomerId(this.customer.id!, event)
       .subscribe((res) => {
@@ -86,7 +89,12 @@ export class CheckoutComponent implements OnInit {
           if (this.i_address >= 0) {
             this.addresses[this.i_address] = res;
           } else {
+            console.log(res);
+
             this.addresses.push(res);
+            console.log(this.addresses);
+            console.log(this.customer.id!);
+            this.addressSelected = res;
           }
           this.isShowDetailAddress = false;
           this.i_address = -1;
@@ -136,10 +144,13 @@ export class CheckoutComponent implements OnInit {
       quantity: this.cart.cartItemDtos?.length as number,
       totalMoney: this.totalMoney as number,
       goodsValue: this.totalMoney as number,
+      delivery: this.isDelivery,
     };
     this.orderService.createOrder(this.order).subscribe((res) => {
       if (res) {
-        this.router.navigate(['orders']);
+        console.log(res);
+        this.order = res;
+        this.isCreateOrderSuccess = true;
       }
     });
   }
@@ -155,6 +166,12 @@ export class CheckoutComponent implements OnInit {
       this.addressEdit = { ...this.addresses[i_address] };
     }
     this.isShowDetailAddress = true;
+  }
+  returnHome() {
+    this.router.navigate(['home']);
+  }
+  returnOrders() {
+    this.router.navigate(['orders']);
   }
   order: OrderDto = {
     address: '',
