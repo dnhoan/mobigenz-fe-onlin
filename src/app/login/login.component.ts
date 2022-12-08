@@ -119,12 +119,10 @@ export class LoginComponent implements OnInit {
           this.isLoggedIn = true;
           this.tokenService.saveToken(data.token);
           const jwtDecode = this.accountService.getDecodedAccessToken();
-          console.log(jwtDecode);
 
           this.tokenService.saveAccount(jwtDecode.sub);
           const role = jwtDecode.auth.split(',');
           this.infoService.getCustomer();
-          console.log(this.infoService.getCustomer());
           if (localStorage.getItem('auth-token')) {
             this.toastr.success('Đăng nhập thành công!');
             this.router.navigate(['/home']);
@@ -136,6 +134,8 @@ export class LoginComponent implements OnInit {
           this.toastr.error('Tài khoản hoặc mật khẩu không chính xác!');
         }
       );
+    } else {
+      this.toastr.error('Bạn phải nhập email và mật khẩu để đăng nhập!');
     }
   }
 
@@ -175,7 +175,7 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword() {
-    this.router.navigate(['forgot']).then((r) => console.log(r));
+    this.router.navigate(['forgot']);
   }
 
   addValueAccount() {

@@ -4,13 +4,44 @@
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Tên người dùng</label>
-        <input formControlName="customerName" type="text" id="form6Example1" class="form-control" />
+        <input
+          formControlName="customerName"
+          type="text"
+          id="form6Example1"
+          class="form-control"
+        />
+        <small
+        class="col alert text-danger col-12"
+        role="alert"
+        *ngIf="formProfile.get('customerName')?.errors?.['required'] && formProfile.get('customerName')?.touched || submit && formProfile.get('customerName')?.errors?.['required'] "
+      >
+        Tên người dùng không được để trống !
+      </small>
       </div>
     </div>
     <div class="col">
       <div>
         <label class="form-label" for="form6Example2">Số ĐT</label>
-        <input formControlName="phoneNumber" type="text" id="form6Example2" class="form-control" />
+        <input
+          formControlName="phoneNumber"
+          type="text"
+          id="form6Example2"
+          class="form-control"
+        />
+        <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="formProfile.get('phoneNumber')?.errors?.['required'] && formProfile.get('phoneNumber')?.touched || submit && formProfile.get('phoneNumber')?.errors?.['required'] "
+        >
+          Số điện thoại không được để trống!
+        </small>
+        <small
+          class="col alert text-danger"
+          role="alert"
+          *ngIf="!formProfile.get('phoneNumber')?.errors?.['required'] && formProfile.get('phoneNumber')?.errors?.['pattern']"
+        >
+          Số điện thoại phải là số và tối đa 10 kí tự!
+        </small>
       </div>
     </div>
   </div>
@@ -18,48 +49,24 @@
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Ngày sinh</label>
-        <input formControlName="birthday"  type="date" id="form6Example1" pattern="yyyy/MM/dd" class="form-control" />
+        <input
+          formControlName="birthday"
+          type="date"
+          id="form6Example1"
+          class="form-control"
+        />
       </div>
     </div>
-    <div class="col">
-      <div>
-        <label class="form-label" for="form6Example2">Image</label>
-        <input formControlName="image" type="file" id="form6Example2" class="form-control" />
-        <!-- <a type="image" formControlName="image"></a> -->
-      </div>
-    </div>
-  </div>
-  <div class="row mb-4">
     <div class="col">
       <div>
         <label class="form-label" for="form6Example1">Email</label>
-        <input formControlName="email" readonly type="text" id="form6Example1" class="form-control" />
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <label class="form-label" for="form6Example2">Giới tính</label>
-       <select formControlName="gender" id="gender" class="form-control">
-        <option value="1">Nam</option>
-        <option value="0">Nữ</option>
-       </select>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col">
-      <div>
-        <label class="form-label" for="form6Example1">Loại khách hàng</label>
-        <select formControlName="customerType" id="customerType" class="form-control">
-          <option value="1">Công ty</option>
-          <option value="0">Cá nhân</option>
-         </select>
-      </div>
-    </div>
-    <div class="col">
-      <div>
-        <label class="form-label" for="form6Example2">CCCD</label>
-        <input formControlName="citizenIdentifyCart" type="text" id="form6Example2" class="form-control" />
+        <input
+          formControlName="email"
+          readonly
+          type="text"
+          id="form6Example1"
+          class="form-control"
+        />
       </div>
     </div>
   </div>
@@ -70,19 +77,57 @@
         <select formControlName="status" id="status" class="form-control">
           <option value="1">Active</option>
           <option value="0">InActive</option>
-         </select>
+        </select>
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">Giới tính</label>
+        <select formControlName="gender" id="gender" class="form-control">
+          <option value="1">Nam</option>
+          <option value="0">Nữ</option>
+        </select>
       </div>
     </div>
   </div>
-  <!-- Checkbox -->
-  <!-- <div class="form-check d-flex justify-content-center mb-4">
-    <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
-    <label class="form-check-label" for="form6Example8"> Nam? </label>
-    <input class="form-check-input me-2" type="checkbox" value="" id="form6Example8" checked />
-    <label class="form-check-label" for="form6Example8"> Nữ? </label>
-  </div> -->
-
-
-  <!-- Submit button -->
-  <button type="submit" (click)="update()" class="btn btn-primary btn-block mb-4 justify-content-center">Cập nhật</button>
+  <div class="row mb-4">
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example1">Loại khách hàng</label>
+        <select
+          formControlName="customerType"
+          id="customerType"
+          class="form-control"
+        >
+          <option value="1">Công ty</option>
+          <option value="0">Cá nhân</option>
+        </select>
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <label class="form-label" for="form6Example2">CCCD</label>
+        <input
+          formControlName="citizenIdentifyCart"
+          type="text"
+          id="form6Example2"
+          class="form-control"
+        />
+        <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="!formProfile.get('citizenIdentifyCart')?.errors?.['required'] && formProfile.get('citizenIdentifyCart')?.errors?.['pattern']"
+        >
+          CCCD phải là số có 12 kí tự!
+        </small>
+      </div>
+    </div>
+  </div>
+  <button
+    type="submit"
+    (click)="update()"
+    class="btn btn-primary btn-block mb-4" style="float: right;"
+  >
+    Cập nhật
+  </button>
 </form>
