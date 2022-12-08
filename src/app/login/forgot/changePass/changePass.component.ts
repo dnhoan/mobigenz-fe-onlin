@@ -11,6 +11,7 @@ import { ForgotService } from '../forgot.service';
 })
 export class ChangePassComponent implements OnInit {
   formChangePass!: FormGroup;
+  submit = false;
 
   constructor(
     private fb: FormBuilder,
@@ -21,32 +22,47 @@ export class ChangePassComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.email
   }
 
   initForm() {
     this.formChangePass = this.fb.group({
-      isOtp: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      isOtp: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(?=[^A-Z\\n]*[A-Z])(?=[^a-z\\n]*[a-z])(?=[^0-9\\n]*[0-9])(?=[^#?!@$%^&*\\n-]*[#?!@$%^&*-]).{8,}$'
+          ),
+        ],
+      ],
       repassword: ['', [Validators.required]],
     });
   }
 
-   email = localStorage.getItem('email');
+  email = localStorage.getItem('email');
 
-  ChangePass(email: any,otp: string, password: any, repassword: any) {
-    email= this.email
-    this.forgotService.changepass(email, otp, password, repassword).subscribe(
-      (res) => {
-        console.log(res);
-        this.toastr.success('Thay đổi mật khẩu thành công');
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        this.toastr.error(error.error.message);
-      }
-    );
+  ChangePass(email: any, otp: string, password: any, repassword: any) {
+    email = this.email;
+    this.submit = true;
+    if (this.formChangePass.valid) {
+      if(this.formChangePass.value.password != this.formChangePass.value.repassword){
+        this.toastr.error("Mật khẩu xác nhận phải trùng khớp!");
+        return
+      }else{
+      this.forgotService.changepass(email, otp, password, repassword).subscribe(
+        (res) => {
+          localStorage.clear();
+          this.toastr.success('Thay đổi mật khẩu thành công');
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          this.toastr.error(error.error.message);
+        }
+      );
+    }
   }
+}
 
   back() {
     this.router.navigate(['/forgot']);

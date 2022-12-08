@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   formProfile!: FormGroup;
   customer: CustomerDTO = {};
   subCustomer!: Subscription;
+  submit = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +37,6 @@ export class ProfileComponent implements OnInit {
     this.initForm();
     this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
-        console.log(res.customer);
         this.customer = res.customer as CustomerDTO;
         this.fillValueForm();
       }
@@ -47,14 +47,19 @@ export class ProfileComponent implements OnInit {
     this.formProfile = this.fb.group({
       id: null,
       customerName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})'),
+        ],
+      ],
       birthday: ['', [Validators.required]],
-      image: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      customerType: ['', [Validators.required]],
-      citizenIdentifyCart: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      gender: [''],
+      customerType: [''],
+      citizenIdentifyCart: ['', [Validators.pattern('^[0-9]{12}$')]],
+      status: [''],
     });
   }
 
@@ -77,10 +82,11 @@ export class ProfileComponent implements OnInit {
       citizenIdentifyCart: this.customer.citizenIdentifyCart,
       status: this.customer.status,
     });
-    console.log(this.customer.id);
   }
 
   update() {
+    this.submit = true;
+    if (this.formProfile.valid) {
       this.addValueCustomer();
       this.customerService.updateCustomerOnline(this.customer).subscribe(
         (res) => {
@@ -92,6 +98,7 @@ export class ProfileComponent implements OnInit {
           this.toastr.error(error.error.message);
         }
       );
+    }
   }
 
   addValueCustomer() {
@@ -102,10 +109,9 @@ export class ProfileComponent implements OnInit {
     this.customer.gender = this.formProfile.value.gender;
     this.customer.email = this.formProfile.value.email;
     this.customer.customerType = this.formProfile.value.customerType;
-    this.customer.citizenIdentifyCart = this.formProfile.value.citizenIdentifyCart;
+    this.customer.citizenIdentifyCart =
+      this.formProfile.value.citizenIdentifyCart;
     this.customer.status = this.formProfile.value.status;
-    console.log(this.formProfile.value);
-
   }
 
   formatDate(date: Date) {
@@ -122,7 +128,7 @@ export class ProfileComponent implements OnInit {
 
   reFormatDate(date: Date) {
     var d = new Date(date),
-      month = '' + (d.getMonth()),
+      month = '' + d.getMonth(),
       day = '' + d.getDate(),
       year = d.getFullYear();
 

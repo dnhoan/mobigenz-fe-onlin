@@ -12,6 +12,20 @@
           id="form2Example1"
           class="form-control pt-2"
         />
+        <small
+            class="col alert text-danger col-12"
+            role="alert"
+            *ngIf="formChangePass.get('isOtp')?.errors?.['required'] && formChangePass.get('isOtp')?.touched || submit && formChangePass.get('isOtp')?.errors?.['required'] "
+          >
+            Mã OTP không được để trống !
+          </small>
+          <small
+          class="col alert text-danger col-12"
+          role="alert"
+          *ngIf="!formChangePass.get('isOtp')?.errors?.['required'] && formChangePass.get('isOtp')?.errors?.['pattern']"
+        >
+          Mã OTP phải là số có 6 kí tự !
+        </small>
       </div>
       <div class="mb-4">
         <label for="form2Example1">Mật khẩu mới</label>
@@ -21,6 +35,20 @@
           id="form2Example1"
           class="form-control pt-2"
         />
+        <small
+                class="col alert text-danger col-12"
+                role="alert"
+                *ngIf="formChangePass.get('password')?.errors?.['required'] && formChangePass.get('password')?.touched || submit && formChangePass.get('password')?.errors?.['required'] "
+              >
+                Mật khẩu không được để trống !
+              </small>
+              <small
+              class="col alert text-danger col-12"
+              role="alert"
+              *ngIf="!formChangePass.get('password')?.errors?.['required'] && formChangePass.get('password')?.errors?.['pattern']"
+            >
+            Mật khẩu phải có 8 ký tự trở lên, bao gồm cả chữ, cả số và cả kí tự đặc biệt !
+            </small>
       </div>
       <div class="mb-4">
         <label for="form2Example1">Nhập lại mật khẩu mới</label>
@@ -30,6 +58,13 @@
           id="form2Example1"
           class="form-control pt-2"
         />
+        <small
+                class="col alert text-danger col-12"
+                role="alert"
+                *ngIf="formChangePass.get('password')?.errors?.['required'] && formChangePass.get('password')?.touched || submit && formChangePass.get('password')?.errors?.['required'] "
+              >
+                Mật khẩu không được để trống !
+              </small>
       </div>
       <div class="text-center">
         <button (click)="ChangePass(this.email,this.formChangePass.value.isOtp, this.formChangePass.value.password, this.formChangePass.value.repassword)" type="submit" class="btn btn-primary">Đổi mật khẩu</button>
