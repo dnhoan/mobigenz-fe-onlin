@@ -3,7 +3,7 @@
     <div>
       <p-dropdown
         [options]="sortOptions"
-        [(ngModel)]="sortPriceIncrease"
+        [(ngModel)]="searchProduct.sortPriceIncrease"
         placeholder="Sắp xếp giá"
         (onChange)="onSortChange($event)"
         styleClass="mb-2 md:mb-0"
@@ -11,11 +11,11 @@
     </div>
     <div>
       <p-dropdown
-        [showClear]="manufacturerSelected ? true : false"
+        [showClear]="searchProduct.manufacturerSelected ? true : false"
         [options]="manufacturers"
         optionLabel="manufacturerName"
         optionValue="id"
-        [(ngModel)]="manufacturerSelected"
+        [(ngModel)]="searchProduct.manufacturerSelected"
         placeholder="Hãng sản xuất"
         (onClear)="clearFilterManufacturer($event)"
         (onChange)="onChangeManufacturer($event)"
@@ -30,7 +30,7 @@
           pInputText
           placeholder="Tìm kiếm sản phẩm"
           (ngModelChange)="search($event)"
-          [(ngModel)]="searchTerm"
+          [(ngModel)]="searchProduct.searchTerm"
         />
       </span>
     </div>

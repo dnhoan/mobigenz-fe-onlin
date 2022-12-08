@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ManufacturerDto } from 'src/app/DTOs/ManufacturerDto';
 import { environment } from 'src/environments/environment.prod';
+import { SearchProduct } from './products.component';
 
 @Injectable({
   providedIn: 'root',
@@ -39,16 +40,18 @@ export class ProductsService {
       catchError(this.handleError<any>('Error get manufacturers', false))
     );
   }
-  searchProductsShop(
-    searchTerm?: string,
-    min_price?: number,
-    max_price?: number,
-    manufacturerId?: number,
-    sortPriceIncrease?: boolean
-  ): Observable<[]> {
+  searchProductsShop(searchProduct: SearchProduct): Observable<[]> {
     return this.httpClient
       .get(
-        `${environment.baseUrl}/user/searchProducts?searchTerm=${searchTerm}&min_price=${min_price}&max_price=${max_price}&manufacturer=${manufacturerId}&sortPriceIncrease=${sortPriceIncrease}`
+        `${environment.baseUrl}/user/searchProducts?searchTerm=${
+          searchProduct.searchTerm
+        }&min_price=${searchProduct.min_price}&max_price=${
+          searchProduct.max_price
+        }&manufacturer=${
+          searchProduct.manufacturerSelected == null
+            ? 0
+            : searchProduct.manufacturerSelected
+        }&sortPriceIncrease=${searchProduct.sortPriceIncrease}`
       )
       .pipe(
         map((res: any) => {

@@ -23,6 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "@ngneat/elf": "^2.3.0",
     "@ngneat/elf-cli": "^3.0.1",
+    "@popperjs/core": "^2.11.6",
     "@types/chart.js": "^2.9.37",
     "angular-bootstrap-md": "^13.0.0",
     "animate.css": "^4.1.1",
