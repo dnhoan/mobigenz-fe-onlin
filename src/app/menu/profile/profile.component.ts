@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   formProfile!: FormGroup;
   customer: CustomerDTO = {};
   subCustomer!: Subscription;
+  submit = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,12 +33,11 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.customerService.getCustomers();
     this.initForm();
     this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer as CustomerDTO;
-        console.log(this.customer);
-
         this.fillValueForm();
       }
     });
@@ -45,15 +45,21 @@ export class ProfileComponent implements OnInit {
 
   initForm() {
     this.formProfile = this.fb.group({
+      id: null,
       customerName: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('(84|0[3|5|7|8|9])+([0-9]{8})'),
+        ],
+      ],
       birthday: ['', [Validators.required]],
-      image: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      customerType: ['', [Validators.required]],
-      citizenIdentifyCart: ['', [Validators.required]],
-      status: ['', [Validators.required]],
+      gender: [''],
+      customerType: [''],
+      citizenIdentifyCart: ['', [Validators.pattern('^[0-9]{12}$')]],
+      status: [''],
     });
   }
 
@@ -65,7 +71,6 @@ export class ProfileComponent implements OnInit {
     let bd;
     if (this.customer.birthday) bd = this.formatDate(this.customer.birthday);
     else bd = null;
-    console.log(bd);
     this.formProfile.patchValue({
       id: this.customer.id,
       customerName: this.customer.customerName,
@@ -77,20 +82,27 @@ export class ProfileComponent implements OnInit {
       citizenIdentifyCart: this.customer.citizenIdentifyCart,
       status: this.customer.status,
     });
-    console.log(this.customer.id);
   }
 
   update() {
-    this.addValueCustomer();
-    console.log(this.addValueCustomer());
-    this.customerService.updateCustomer(this.customer).subscribe((res) => {
-      this.toastr.success('Cập nhật thông tin thành công!');
-      this.router.navigate(['/home']).then((r) => console.log(r));
-    });
+    this.submit = true;
+    if (this.formProfile.valid) {
+      this.addValueCustomer();
+      this.customerService.updateCustomerOnline(this.customer).subscribe(
+        (res) => {
+          this.toastr.success('Cập nhật khách hàng thành công!');
+          this.customerService.getCustomers();
+          return;
+        },
+        (error) => {
+          this.toastr.error(error.error.message);
+        }
+      );
+    }
   }
 
   addValueCustomer() {
-    console.log(this.formProfile.value);
+    this.customer.id = this.formProfile.value.id;
     this.customer.customerName = this.formProfile.value.customerName;
     this.customer.phoneNumber = this.formProfile.value.phoneNumber;
     this.customer.birthday = this.formProfile.value.birthday;
@@ -105,6 +117,18 @@ export class ProfileComponent implements OnInit {
   formatDate(date: Date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  reFormatDate(date: Date) {
+    var d = new Date(date),
+      month = '' + d.getMonth(),
       day = '' + d.getDate(),
       year = d.getFullYear();
 
