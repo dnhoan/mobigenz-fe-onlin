@@ -35,6 +35,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.customerService.getCustomers();
     this.initForm();
+    console.log(customerStore);
+
     this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer as CustomerDTO;

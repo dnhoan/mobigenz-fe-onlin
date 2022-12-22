@@ -41,6 +41,6 @@ export class InfoService {
 
 
   userGetCustomerByEmail(email: any): Observable<any> {
-    return this.http.get<any>("http://localhost:8080/user/customers/email?email=" + email);
+    return this.http.get<any>("http://localhost:8080/api/user/customer/email?email=" + email);
   }
 }
