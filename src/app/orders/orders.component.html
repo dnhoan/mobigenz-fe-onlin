@@ -7,9 +7,8 @@
     <input pInputText type="text" placeholder="Search..." />
   </span>
 </div>
-
-<ng-container *ngFor="let order of orders; let i_order = index"
-  ><div class="bg-white rounded-5 p-4 mt-4">
+<div class="bg-white rounded-5 p-4 mt-4" style="min-height: 600px">
+  <ng-container *ngFor="let order of orders; let i_order = index">
     <div class="d-flex justify-content-between">
       <p><b>Mã đơn hàng: </b>{{ order.id }}</p>
       <ng-container *ngFor="let status of commonService.orderStatuses">
@@ -30,7 +29,7 @@
             class="product-image"
             width="100px"
           />
-          <div class="product-list-detail">
+          <div class="product-list-detail ms-2">
             <h6 class="mb-2">
               <b>{{ orderDetail.productDetailCartDto!.productName }} </b> x
               {{ orderDetail.amount }}
@@ -72,8 +71,8 @@
         Xem chi tiết
       </button>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
 <p-dialog
   [visible]="isShowConfirmCancelOrder"
   header="Hủy đơn hàng"
@@ -123,7 +122,7 @@
         <div class="border-end m-3 pe-3">
           <p><b>Ngày tạo</b></p>
           <p>
-            {{ currentOrder.ctime | date: "dd/MM/yyyy HH:mm" }}
+            {{ currentOrder.ctime | date : "dd/MM/yyyy HH:mm" }}
           </p>
         </div>
         <div class="border-end m-3 pe-3">

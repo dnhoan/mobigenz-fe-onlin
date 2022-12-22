@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { InfoService } from 'src/service/infoCustomer.service';
@@ -37,13 +38,16 @@ export class ProductDetailComponent implements OnInit {
       numVisible: 1,
     },
   ];
+  amount: number = 0;
+  productDetailSelected!: ProductDetailDto | null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productDetailService: ProductDetailService,
     private cartService: CartService,
     private message: MessageService,
-    private infoService: InfoService
+    private infoService: InfoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +59,6 @@ export class ProductDetailComponent implements OnInit {
     });
     this.productDetailService.getProductById(productId).subscribe((product) => {
       this.product = product;
-      console.log(this.product);
     });
   }
   selectOptionValue(
@@ -70,69 +73,58 @@ export class ProductDetailComponent implements OnInit {
       }));
     this.product.optionDtos![i_option].optionValueDtos[i_optionValue].selected =
       !currentSelected;
-  }
 
-  // lastOption: number = 0;
-  // selectOptionValue(i_option: number, optionId: number, optionValueId: number) {
-  //   console.log(this.product);
-
-  //   let productDetails = this.product.productDetailDtos.filter((proDetail) => {
-  //     let check =
-  //       proDetail.productVariantCombinationDtos![i_option].optionValueDto!.id ==
-  //       optionValueId;
-  //     if (proDetail.productVariantCombinationDtos?.length == 2) {
-  //       proDetail.productVariantCombinationDtos.forEach((p, i) => {
-  //         if (i != i_option) {
-  //           check =
-  //             check &&
-  //             p.optionValueDto?.id ==
-  //               this.currentProductDetail.productVariantCombinationDtos![i]
-  //                 .optionValueDto!.id;
-  //         }
-  //       });
-  //     }
-  //     return check;
-  //   });
-  //   this.currentProductDetail = productDetails[0];
-  // }
-
-  addToCart(checkout?: boolean) {
     let optionValuesSelected = this.product.optionDtos?.map((option) => {
       return option.optionValueDtos.find((optionValue) => optionValue.selected);
     }) as OptionValueDto[];
-    let productDetail = {
-      priceSell: 0,
-      sku: '',
-      image: '',
-    } as ProductDetailDto;
-    this.product.productDetailDtos.forEach((proDetail) => {
-      if (
-        proDetail.productVariantCombinationDtos!.every(
-          (productVariantCombinationDto, i) =>
-            optionValuesSelected[i].id ==
-            productVariantCombinationDto.optionValueDto?.id
-        )
-      ) {
-        productDetail = proDetail;
-        console.log(productDetail);
-      }
-    });
-    this.cartService
-      .addToCart(this.customer.id!, {
-        totalMoney: productDetail.priceSell,
-        amount: 1,
-        productDetailCartDto: {
-          id: productDetail.id,
-          price: productDetail.priceSell,
-          stock: 0,
-        },
-      })
-      .subscribe((res: any) => {
-        if (res) {
-          if (checkout) this.router.navigate(['checkout']);
+
+    if (!optionValuesSelected.some((o) => o === undefined)) {
+      this.product.productDetailDtos.forEach((proDetail) => {
+        if (
+          proDetail.productVariantCombinationDtos!.every(
+            (productVariantCombinationDto, i) =>
+              optionValuesSelected[i].id ==
+              productVariantCombinationDto.optionValueDto?.id
+          )
+        ) {
+          this.productDetailSelected = proDetail;
         }
       });
-    // console.log(this.currentProductDetail);
+      this.amount = this.productDetailSelected?.stock ? 1 : 0;
+    } else {
+      this.amount = 0;
+      this.productDetailSelected = null;
+    }
+  }
+
+  addToCart(checkout?: boolean) {
+    if (this.customer) {
+      if (this.productDetailSelected) {
+        this.cartService
+          .addToCart(this.customer.id!, {
+            totalMoney: this.productDetailSelected.priceSell,
+            amount: this.amount,
+            productDetailCartDto: {
+              id: this.productDetailSelected.id,
+              price: this.productDetailSelected.priceSell,
+              stock: 0,
+            },
+          })
+          .subscribe((res: any) => {
+            if (res) {
+              if (checkout) this.router.navigate(['checkout']);
+            }
+          });
+      } else {
+        this.toastr.error('Vui lòng chọn phân loại');
+      }
+    } else {
+      this.toastr.warning('Vui lòng đăng nhập');
+      this.router.navigate(['login']);
+    }
+  }
+  returnHome() {
+    this.router.navigate(['home']);
   }
   ngOnDestroy() {
     this.subCustomer.unsubscribe();

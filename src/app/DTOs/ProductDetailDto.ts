@@ -6,6 +6,6 @@ export interface ProductDetailDto {
   priceSell: number;
   sku: string;
   image: string;
-  images: string[];
+  stock: number;
   productVariantCombinationDtos?: ProductVariantCombinationDto[];
 }

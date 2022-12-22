@@ -80,8 +80,6 @@ export class CheckoutComponent implements OnInit {
     });
   }
   updateAddress(event: any) {
-    console.log('save address');
-
     this.addressService
       .saveAddressByCustomerId(this.customer.id!, event)
       .subscribe((res) => {
@@ -89,11 +87,7 @@ export class CheckoutComponent implements OnInit {
           if (this.i_address >= 0) {
             this.addresses[this.i_address] = res;
           } else {
-            console.log(res);
-
             this.addresses.push(res);
-            console.log(this.addresses);
-            console.log(this.customer.id!);
             this.addressSelected = res;
           }
           this.isShowDetailAddress = false;
@@ -148,8 +142,7 @@ export class CheckoutComponent implements OnInit {
     };
     this.orderService.createOrder(this.order).subscribe((res) => {
       if (res) {
-        console.log(res);
-        this.order = res;
+        this.order = { ...res, orderDetailDtos: this.order.orderDetailDtos };
         this.isCreateOrderSuccess = true;
       }
     });
