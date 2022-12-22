@@ -65,8 +65,10 @@ export class MenuComponent implements OnInit {
     this.subCustomer.unsubscribe();
   }
   ngOnInit() {
+    console.log(customerStore);
     this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
+
         this.customer = res.customer;
         console.log(this.customer?.customerName);
 

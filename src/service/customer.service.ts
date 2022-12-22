@@ -19,7 +19,7 @@ export class CustomerService {
 
 
   getCustomers(): Observable<any> {
-    return this.http.get<any>("http://localhost:8080/user/customers/getAllCus");
+    return this.http.get<any>("http://localhost:8080/api/user/customers/getAllCus");
   }
 
   getAll(offset: any, limit: any): Observable<any> {
