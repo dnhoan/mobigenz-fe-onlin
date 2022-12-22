@@ -36,19 +36,25 @@
       >
         {{ product.productName }}
       </h2>
-      <!-- <span class="badge badge-danger product mb-4 ml-xl-0 ml-4"
-        >bestseller</span
-      >
-      <span class="badge badge-success product mb-4 ml-2">SALE</span> -->
 
       <h3 class="h3-responsive text-md-left mb-3 ml-xl-0 ml-4">
-        <span class="red-text font-weight-bold">
-          <!-- <strong>{{ product.ỏice }} ₫</strong> -->
-        </span>
-        <span class="grey-text">
-          <small>
-            <s>{{ product.productDetailDtos[0].priceSell }} ₫</s>
-          </small>
+        <span class="red-text">
+          <ng-container *ngIf="productDetailSelected; else priceProduct">
+            <small>
+              <b>{{ productDetailSelected.priceSell | number }} ₫</b>
+            </small>
+          </ng-container>
+          <ng-template #priceProduct>
+            <small *ngIf="product.minPrice == product.maxPrice"
+              ><b>{{ product.minPrice | number }}đ</b></small
+            >
+            <small *ngIf="product.minPrice != product.maxPrice"
+              ><b
+                >{{ product.minPrice | number }}đ -
+                {{ product.maxPrice | number }}đ</b
+              ></small
+            >
+          </ng-template>
         </span>
       </h3>
 
@@ -99,22 +105,70 @@
           </div>
         </ng-container>
       </div>
+      <div class="font-weight-normal mb-4">
+        <h5>Số lượng</h5>
+        <div>
+          <p-inputNumber
+            [(ngModel)]="amount"
+            [disabled]="
+              productDetailSelected == null || productDetailSelected.stock == 0
+            "
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            inputId="horizontal"
+            spinnerMode="horizontal"
+            [step]="1"
+            [max]="productDetailSelected ? productDetailSelected.stock : 0"
+            [min]="productDetailSelected ? 1 : 0"
+            decrementButtonClass="p-button-default"
+            incrementButtonClass="p-button-default"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+          >
+          </p-inputNumber>
+        </div>
+        <p
+          class="mt-3 mb-3 red-text"
+          *ngIf="productDetailSelected && productDetailSelected.stock == 0"
+        >
+          Sản phẩm đã hết hàng vui lòng chọn sản phẩm khác
+        </p>
+      </div>
       <div>
-        <p-button
-          label="Mua ngay"
-          icon="pi pi-check"
-          styleClass="p-button-lg mr-2"
-          (click)="addToCart(true)"
-        ></p-button>
-        <button
-          pButton
-          pRipple
-          (click)="addToCart()"
-          type="button"
-          label="Thêm giỏ hàng"
-          icon="pi pi-cart-plus"
-          class="p-button-lg p-button-outlined p-button-danger"
-        ></button>
+        <ng-container
+          *ngIf="
+            (productDetailSelected && productDetailSelected.stock > 0) ||
+              !productDetailSelected;
+            else showOtherProduct
+          "
+        >
+          <p-button
+            label="Mua ngay"
+            icon="pi pi-check"
+            styleClass="p-button-lg mr-2"
+            (click)="addToCart(true)"
+          ></p-button>
+          <button
+            pButton
+            pRipple
+            (click)="addToCart()"
+            type="button"
+            label="Thêm giỏ hàng"
+            icon="pi pi-cart-plus"
+            class="p-button-lg p-button-outlined p-button-danger"
+          ></button>
+        </ng-container>
+        <ng-template #showOtherProduct>
+          <button
+            pButton
+            pRipple
+            (click)="returnHome()"
+            type="button"
+            label="Xem sản phẩm khác"
+            icon="pi pi-home"
+            class="p-button-lg p-button-outlined p-button-danger"
+          ></button>
+        </ng-template>
       </div>
     </div>
   </div>

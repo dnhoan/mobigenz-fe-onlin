@@ -53,7 +53,7 @@
         <div class="p-field-radiobutton d-flex align-items-center">
           <p-radioButton
             name="city"
-            value="1"
+            [value]="1"
             [(ngModel)]="isDelivery"
             inputId="city2"
           ></p-radioButton>
@@ -62,7 +62,7 @@
         <div class="p-field-radiobutton d-flex align-items-center ms-4">
           <p-radioButton
             name="city"
-            value="0"
+            [value]="0"
             [(ngModel)]="isDelivery"
             inputId="city1"
           ></p-radioButton>
@@ -91,7 +91,7 @@
                     <p-radioButton
                       name="address"
                       [value]="address.id"
-                      [(ngModel)]="addressSelected.id"
+                      [ngModel]="addressSelected.id"
                       (ngModelChange)="onChangeAddressSelected(address.id)"
                       inputId="{{ address.id }}"
                     ></p-radioButton>
@@ -146,7 +146,6 @@
               <h6 class="mb-2">
                 <b>{{ cartItem.productDetailCartDto!.price | number }} ₫</b>
               </h6>
-              <!-- 'product-badge status-' + product.inventoryStatus.toLowerCase() -->
               <span [class]="">{{ cartItem.amount }}</span>
             </div>
           </div>
@@ -159,35 +158,6 @@
           </h5>
         </div>
         <p-divider></p-divider>
-        <!-- <h5>Phương thức thanh toán</h5>
-      <div class="money mb-3">
-        <p-radioButton
-          name="city"
-          value="money"
-          [(ngModel)]="city"
-          inputId="city1"
-        ></p-radioButton>
-        <label for="city1" class="mb-0 ps-2">Tiền mặt</label>
-      </div>
-      <div class="bank mb-3">
-        <p-radioButton
-          name="city"
-          value="bank"
-          [(ngModel)]="city"
-          inputId="city2"
-        ></p-radioButton>
-        <label for="city2" class="mb-0 ps-2">Chuyển khoản</label>
-      </div> -->
-        <div class="field-checkbox d-flex align-items-start mb-3">
-          <p-checkbox
-            [(ngModel)]="checked"
-            [binary]="true"
-            inputId="binary"
-          ></p-checkbox>
-          <label for="binary" class="ps-2">
-            Tôi đã đọc và đồng ý với điều khoản và điều kiện của website</label
-          >
-        </div>
         <div class="d-flex justify-content-end">
           <p-button
             (onClick)="submit()"
