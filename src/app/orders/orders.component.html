@@ -148,6 +148,14 @@
           </p>
         </div>
         <div class="border-end m-3 pe-3">
+          <p><b>Tổng tiền hàng</b></p>
+          <p>{{ currentOrder.goodsValue | number }}đ</p>
+        </div>
+        <div class="border-end m-3 pe-3">
+          <p><b>Phí vận chuyển</b></p>
+          <p>{{ currentOrder.shipFee | number }}đ</p>
+        </div>
+        <div class="border-end m-3 pe-3">
           <p><b>Tổng tiền</b></p>
           <p>{{ currentOrder.totalMoney | number }}đ</p>
         </div>

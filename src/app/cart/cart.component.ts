@@ -78,5 +78,6 @@ export class CartComponent implements OnInit {
     this.cartService
       .updateCartItem(this.cart.cartItemDtos![i_cart_item], this.cart.id!)
       .subscribe();
+    this.calculateTotalMoney();
   }
 }

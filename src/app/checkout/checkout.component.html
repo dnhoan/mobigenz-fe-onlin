@@ -152,9 +152,31 @@
         </ng-container>
         <p-divider></p-divider>
         <div class="d-flex justify-content-between mt-4 mb-2">
+          <h5><b>Tiền hàng</b></h5>
+          <h5 class="color-danger">
+            <b>{{ goodsValue | number }} ₫</b>
+          </h5>
+        </div>
+        <div
+          *ngIf="isDelivery == 1"
+          class="d-flex justify-content-between mt-4 mb-2"
+        >
+          <h5><b>Phí vận chuyển</b></h5>
+          <h5 class="color-danger">
+            <b>{{ order.shipFee | number }} ₫</b>
+          </h5>
+        </div>
+        <div class="d-flex justify-content-between mt-4 mb-2">
           <h5><b>Tổng tiền</b></h5>
           <h5 class="color-danger">
-            <b>{{ totalMoney | number }} ₫</b>
+            <b
+              >{{
+                goodsValue +
+                  (order.shipFee! && isDelivery == 1 ? order.shipFee : 0)
+                  | number
+              }}
+              ₫</b
+            >
           </h5>
         </div>
         <p-divider></p-divider>
@@ -198,6 +220,14 @@
         <p>
           {{ order.ctime | date }}
         </p>
+      </div>
+      <div class="border-end m-3 pe-3">
+        <p><b>Tổng tiền hàng</b></p>
+        <p>{{ order.goodsValue | number }}đ</p>
+      </div>
+      <div *ngIf="order.delivery == 1" class="border-end m-3 pe-3">
+        <p><b>Phí vận chuyển</b></p>
+        <p>{{ order.shipFee | number }}đ</p>
       </div>
       <div class="border-end m-3 pe-3">
         <p><b>Tổng tiền</b></p>

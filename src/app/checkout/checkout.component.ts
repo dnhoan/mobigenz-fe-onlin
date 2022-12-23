@@ -28,7 +28,7 @@ export class CheckoutComponent implements OnInit {
   checked = false;
   city!: string;
   cart: CartDto = {};
-  totalMoney = 0;
+  goodsValue = 0;
   customer!: CustomerDTO;
   isShowDetailAddress = false;
   i_address: number = -1;
@@ -86,9 +86,11 @@ export class CheckoutComponent implements OnInit {
         if (res) {
           if (this.i_address >= 0) {
             this.addresses[this.i_address] = res;
+            this.onChangeAddressSelected(this.addressSelected!.id);
           } else {
             this.addresses.push(res);
             this.addressSelected = res;
+            this.onChangeAddressSelected(this.addresses.length - 1);
           }
           this.isShowDetailAddress = false;
           this.i_address = -1;
@@ -104,9 +106,13 @@ export class CheckoutComponent implements OnInit {
         this.addressService.deleteAddress(address_id).subscribe((res) => {
           if (res) {
             this.addresses.splice(i_address, 1);
-            this.addressSelected = this.addresses.length
-              ? this.addresses[0]
-              : null;
+            if (this.addresses.length) {
+              this.addressSelected = this.addresses[0];
+              this.getFeeShip();
+            } else {
+              this.addressSelected = null;
+              this.order.shipFee = 0;
+            }
           }
         });
       },
@@ -125,9 +131,13 @@ export class CheckoutComponent implements OnInit {
       this.addressSelected.district +
       ', ' +
       this.addressSelected.city;
+    this.getFeeShip();
   }
   submit() {
     this.calculateTotalMoney();
+    if (this.isDelivery == 0) {
+      this.order.shipFee = 0;
+    }
     this.order = {
       ...this.order,
       customerDTO: { id: this.customer.id! } as CustomerDto,
@@ -137,12 +147,16 @@ export class CheckoutComponent implements OnInit {
         amount: cartItem.amount,
         productDetailCartDto: {
           id: cartItem.productDetailCartDto?.id,
+          price: cartItem.productDetailCartDto?.price,
+          image: cartItem.productDetailCartDto?.image,
+          productName: cartItem.productDetailCartDto?.productName,
+          sku: cartItem.productDetailCartDto?.sku,
         },
         note: '',
       })) as OrderDetailDto[],
       quantity: this.cart.cartItemDtos?.length as number,
-      totalMoney: this.totalMoney as number,
-      goodsValue: this.totalMoney as number,
+      totalMoney: (this.goodsValue + this.order.shipFee!) as number,
+      goodsValue: this.goodsValue as number,
       delivery: this.isDelivery,
       purchaseType: 1,
     };
@@ -154,10 +168,21 @@ export class CheckoutComponent implements OnInit {
     });
   }
   calculateTotalMoney() {
-    this.totalMoney = this.cart.cartItemDtos!.reduce(
+    this.goodsValue = this.cart.cartItemDtos!.reduce(
       (b, a: CartItemDto) => b + a.productDetailCartDto!.price * a.amount,
       0
     );
+  }
+  getFeeShip() {
+    this.checkoutService
+      .getFeeShip(
+        this.order.address,
+        this.addressSelected?.city!,
+        this.addressSelected?.district!
+      )
+      .subscribe((res) => {
+        this.order.shipFee = res;
+      });
   }
   showAddressDetail(i_address: number) {
     this.i_address = i_address;
