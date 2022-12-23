@@ -139,6 +139,7 @@ export class CheckoutComponent implements OnInit {
       totalMoney: this.totalMoney as number,
       goodsValue: this.totalMoney as number,
       delivery: this.isDelivery,
+      purchaseType: 1,
     };
     this.orderService.createOrder(this.order).subscribe((res) => {
       if (res) {
@@ -185,5 +186,6 @@ export class CheckoutComponent implements OnInit {
     recipientPhone: '',
     shipFee: 0,
     totalMoney: 0,
+    purchaseType: 1,
   };
 }

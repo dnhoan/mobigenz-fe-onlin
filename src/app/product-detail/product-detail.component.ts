@@ -79,17 +79,20 @@ export class ProductDetailComponent implements OnInit {
     }) as OptionValueDto[];
 
     if (!optionValuesSelected.some((o) => o === undefined)) {
-      this.product.productDetailDtos.forEach((proDetail) => {
-        if (
-          proDetail.productVariantCombinationDtos!.every(
-            (productVariantCombinationDto, i) =>
-              optionValuesSelected[i].id ==
-              productVariantCombinationDto.optionValueDto?.id
-          )
-        ) {
-          this.productDetailSelected = proDetail;
-        }
-      });
+      if (this.product.productDetailDtos.length == 1) {
+        this.productDetailSelected = this.product.productDetailDtos[0];
+      } else
+        this.product.productDetailDtos.forEach((proDetail) => {
+          if (
+            proDetail.productVariantCombinationDtos!.every(
+              (productVariantCombinationDto, i) =>
+                optionValuesSelected[i].id ==
+                productVariantCombinationDto.optionValueDto?.id
+            )
+          ) {
+            this.productDetailSelected = proDetail;
+          }
+        });
       this.amount = this.productDetailSelected?.stock ? 1 : 0;
     } else {
       this.amount = 0;
