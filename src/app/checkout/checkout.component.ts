@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { firstValueFrom, lastValueFrom, skip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { InfoService } from 'src/service/infoCustomer.service';
 import { CartService } from '../cart/cart.service';
 import { customerStore } from '../customer.repository';
