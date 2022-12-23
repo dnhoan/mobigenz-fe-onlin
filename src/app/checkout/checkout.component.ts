@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { firstValueFrom, lastValueFrom, skip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { InfoService } from 'src/service/infoCustomer.service';
 import { CartService } from '../cart/cart.service';
 import { customerStore } from '../customer.repository';
@@ -86,11 +86,10 @@ export class CheckoutComponent implements OnInit {
         if (res) {
           if (this.i_address >= 0) {
             this.addresses[this.i_address] = res;
-            this.onChangeAddressSelected(this.addressSelected!.id);
           } else {
             this.addresses.push(res);
             this.addressSelected = res;
-            this.onChangeAddressSelected(this.addresses.length - 1);
+            this.onChangeAddressSelected(res.id);
           }
           this.isShowDetailAddress = false;
           this.i_address = -1;
