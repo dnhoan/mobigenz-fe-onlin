@@ -14,11 +14,14 @@ import { OrderService } from './order.service';
 })
 export class OrdersComponent implements OnInit {
   orders: OrderDto[] = [];
+  statusSelected: number = 999;
   productDialog: boolean = false;
   currentOrder!: OrderDto;
   isShowConfirmCancelOrder = false;
   i_current_order!: number;
   cancelNote: string = '';
+  term: string = '';
+  subSearchOrder!: Subscription;
   constructor(
     private message: MessageService,
     private orderService: OrderService,
@@ -34,17 +37,35 @@ export class OrdersComponent implements OnInit {
     this.subCustomer = customerStore.subscribe((res: any) => {
       if (res.customer) {
         this.customer = res.customer;
-        this.orderService.getOrders(this.customer.id!).subscribe((res) => {
-          this.orders = res;
-        });
+        this.getOrders();
       }
     });
   }
-  searchOrder(event: any) {}
   hideDialog() {
     this.productDialog = false;
   }
+  getOrders() {
+    this.orderService
+      .searchOrderByCusId(this.customer.id!, this.term, this.statusSelected)
+      .subscribe((res) => {
+        this.orders = res;
+      });
+  }
+  // clearFilterStatus(event: any) {
+  //   console.log(event);
 
+  //   this.statusSelected = 999;
+  //   this.getOrders();
+  // }
+  onChangeStatus(event: any) {
+    if (event.value == null) {
+      this.statusSelected = 999;
+    } else this.statusSelected = event.value;
+    this.getOrders();
+  }
+  search() {
+    this.getOrders();
+  }
   showOrderDetail(order: OrderDto) {
     this.productDialog = true;
     this.currentOrder = order;

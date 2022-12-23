@@ -2,15 +2,31 @@
   class="d-flex justify-content-between bg-white p-3 align-items-center mt-4 rounded-5"
 >
   <h5 class="m-0">Đơn hàng</h5>
+  <p-dropdown
+    [options]="commonService.orderStatuses"
+    [(ngModel)]="statusSelected"
+    placeholder="Trạng thái đơn hàng"
+    optionLabel="statusName"
+    optionValue="status"
+    [showClear]="true"
+    (onChange)="onChangeStatus($event)"
+  ></p-dropdown>
+
   <span class="p-input-icon-left">
     <i class="pi pi-search"></i>
-    <input pInputText type="text" placeholder="Search..." />
+    <input
+      pInputText
+      type="text"
+      [(ngModel)]="term"
+      (keyup.enter)="search()"
+      placeholder="Search..."
+    />
   </span>
 </div>
-<div class="bg-white rounded-5 p-4 mt-4" style="min-height: 600px">
+<div class="bg-white rounded-5 p-4 mt-4 mb-4" style="min-height: 600px">
   <ng-container *ngFor="let order of orders; let i_order = index">
     <div class="d-flex justify-content-between mt-3">
-      <p><b>Mã đơn hàng: </b>{{ order.id }}</p>
+      <p><b>Mã đơn hàng: </b>HD{{ order.id }}</p>
       <ng-container *ngFor="let status of commonService.orderStatuses">
         <p-tag
           *ngIf="status.status == order.orderStatus"
@@ -123,9 +139,7 @@
       <div class="d-flex">
         <div class="border-end m-3 pe-3">
           <p><b>Mã đơn hàng</b></p>
-          <p>
-            {{ currentOrder.id }}
-          </p>
+          <p>HD{{ currentOrder.id }}</p>
         </div>
         <div class="border-end m-3 pe-3">
           <p><b>Ngày tạo</b></p>

@@ -24,7 +24,7 @@ import { CheckoutService } from './checkout.service';
 export class CheckoutComponent implements OnInit {
   isDelivery: number = 0;
   addresses: CustomersAddress[] = [];
-  addressSelected!: CustomersAddress;
+  addressSelected!: CustomersAddress | null;
   checked = false;
   city!: string;
   cart: CartDto = {};
@@ -102,7 +102,12 @@ export class CheckoutComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.addressService.deleteAddress(address_id).subscribe((res) => {
-          if (res) this.addresses.splice(i_address, 1);
+          if (res) {
+            this.addresses.splice(i_address, 1);
+            this.addressSelected = this.addresses.length
+              ? this.addresses[0]
+              : null;
+          }
         });
       },
       reject: () => {},
