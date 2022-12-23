@@ -86,11 +86,10 @@ export class CheckoutComponent implements OnInit {
         if (res) {
           if (this.i_address >= 0) {
             this.addresses[this.i_address] = res;
-            this.onChangeAddressSelected(this.addressSelected!.id);
           } else {
             this.addresses.push(res);
             this.addressSelected = res;
-            this.onChangeAddressSelected(this.addresses.length - 1);
+            this.onChangeAddressSelected(res.id);
           }
           this.isShowDetailAddress = false;
           this.i_address = -1;
