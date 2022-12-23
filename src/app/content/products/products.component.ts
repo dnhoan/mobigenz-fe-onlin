@@ -71,6 +71,8 @@ export class ProductsComponent implements OnInit {
     }
   }
   onSortChange(event: any) {
+    console.log(event);
+
     this.searchChange$.next({ ...this.searchProduct });
   }
   onChangeManufacturer(event: any) {
