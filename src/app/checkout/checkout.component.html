@@ -91,7 +91,7 @@
                     <p-radioButton
                       name="address"
                       [value]="address.id"
-                      [ngModel]="addressSelected.id"
+                      [ngModel]="addressSelected!.id"
                       (ngModelChange)="onChangeAddressSelected(address.id)"
                       inputId="{{ address.id }}"
                     ></p-radioButton>
@@ -191,9 +191,7 @@
     <div class="d-flex">
       <div class="border-end m-3 pe-3">
         <p><b>Mã đơn hàng</b></p>
-        <p>
-          {{ order.id }}
-        </p>
+        <p>HD{{ order.id }}</p>
       </div>
       <div class="border-end m-3 pe-3">
         <p><b>Ngày tạo</b></p>

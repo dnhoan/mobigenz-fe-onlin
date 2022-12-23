@@ -67,9 +67,11 @@ export class OrderService {
         catchError(this.handleError<any>('Lỗi cập nhật đơn hàng', false))
       );
   }
-  getOrders(customer_id: number) {
+  searchOrderByCusId(customer_id: number, term: string, order_status?: number) {
     return this.httpClient
-      .get(`${environment.baseUrl}/user/customerOrders/${customer_id}`)
+      .get(
+        `${environment.baseUrl}/user/customerOrders/${customer_id}?term=${term}&order_status=${order_status}`
+      )
       .pipe(
         map((res: any) => {
           if (res.statusCode === 200) {
