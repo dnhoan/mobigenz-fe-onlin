@@ -24,4 +24,5 @@ export interface OrderDto {
   ctime?: string;
   mtime?: string;
   delivery?: number;
+  purchaseType: number;
 }

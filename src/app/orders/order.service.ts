@@ -49,6 +49,24 @@ export class OrderService {
         catchError(this.handleError<any>('Lỗi hủy đơn hàng', false))
       );
   }
+  receivedOrder(order_id: number) {
+    return this.httpClient
+      .put(`${environment.baseUrl}/user/receivedOrder/${order_id}`, {})
+      .pipe(
+        map((res: any) => {
+          if (res.statusCode === 200) {
+            this.message.add({
+              severity: 'success',
+              summary: 'Thành công',
+              detail: 'Cập nhật thành công',
+            });
+            return res.data.result;
+          }
+          return false;
+        }),
+        catchError(this.handleError<any>('Lỗi cập nhật đơn hàng', false))
+      );
+  }
   getOrders(customer_id: number) {
     return this.httpClient
       .get(`${environment.baseUrl}/user/customerOrders/${customer_id}`)

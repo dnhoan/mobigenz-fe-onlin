@@ -52,27 +52,31 @@ export class OrdersComponent implements OnInit {
   showConfirmCancelOrder(i_order: number) {
     this.i_current_order = i_order;
     this.isShowConfirmCancelOrder = true;
-    // this.confirmationService.confirm({
-    //   message: 'Bạn có muốn hủy đơn hàng này không?',
-    //   header: 'Hủy đơn hàng',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   rejectLabel: 'Không',
-    //   acceptLabel: 'Ok',
-    //   accept: () => {},
-    // });
   }
   cancelOrder() {
     this.orderService
       .cancelOrder(this.orders[this.i_current_order].id, this.cancelNote)
       .subscribe((res) => {
-        console.log(res);
-
         if (res) {
-          this.orders[this.i_current_order].orderStatus = 0;
+          this.orders[this.i_current_order].orderStatus = -1;
           this.cancelNote = '';
           this.isShowConfirmCancelOrder = false;
         }
       });
+  }
+  receivedOrder(order_id: number, i_order: number) {
+    this.confirmationService.confirm({
+      message: 'Bạn muốn xác nhận đã nhận được đơn hàng không?',
+      accept: () => {
+        this.orderService.receivedOrder(order_id).subscribe((res) => {
+          if (res) {
+            this.orders[i_order].orderStatus = 4;
+            this.cancelNote = '';
+            this.isShowConfirmCancelOrder = false;
+          }
+        });
+      },
+    });
   }
   closeConfirmCancelOrder() {
     this.isShowConfirmCancelOrder = false;
